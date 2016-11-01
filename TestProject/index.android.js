@@ -9,27 +9,29 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Image 
 } from 'react-native';
 
 export default class TestProject extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
+	render() {
+        let pic = {
+      		uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg' };
+    	return (
+    		<View>
+      			<Image source={pic} style={{width: 193, height: 110}}/>
+      			<Text style = {styles.welcome}> Hello World! </Text>
+      			<Text style={styles.red}>just red</Text>
+        		<Text style={styles.bigblue}>just bigblue</Text>
+        		<Text style={[styles.bigblue, styles.red]}>bigblue, then red</Text>
+        		<Text style={[styles.red, styles.bigblue]}>red, then bigblue</Text>
+      		</View>
+    	);
+	}
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -47,6 +49,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  bigblue: {
+    color: 'blue',
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
+  red: {
+    color: 'red',
   },
 });
 
