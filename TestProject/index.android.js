@@ -7,35 +7,82 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  Image,
   StyleSheet,
   Text,
-  View,
-  Image 
+  TextInput,
+  View
 } from 'react-native';
 
 export default class TestProject extends Component {
-	render() {
-        let pic = {
-      		uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg' };
-    	return (
-    		<View>
-      			<Image source={pic} style={{width: 193, height: 110}}/>
-      			<Text style = {styles.welcome}> Hello World! </Text>
-      			<Text style={styles.red}>just red</Text>
-        		<Text style={styles.bigblue}>just bigblue</Text>
-        		<Text style={[styles.bigblue, styles.red]}>bigblue, then red</Text>
-        		<Text style={[styles.red, styles.bigblue]}>red, then bigblue</Text>
-      		</View>
-    	);
-	}
+  constructor(props) {
+      super(props);
+      this.state = { 
+          email: 'Email',
+          confirmEmail: 'Confirm',
+          password: '',
+          confirmPassword: ''
+      };
+  }
+  render() {
+    let pic = {
+      uri: 'https://image.freepik.com/free-icon/thumbs-up_318-31579.jpg'
+    };
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Sign up below!
+        </Text>
+        <Text style={styles.instructions}>
+          Please fill in all required fields
+        </Text>
+        <Text style={styles.instructions}>
+          Email*
+        </Text>
+        <TextInput 
+          style={{flex:0.1, textAlign: 'center', color: 'darkgray', borderColor: 'black'}}
+          selectTextOnFocus={true}
+          onChangeText={(email) => this.setState({email})}
+          value={this.state.email}
+        />
+        <Text style={styles.instructions}>
+          Confirm Email*
+        </Text>
+        <TextInput 
+          style={{flex: 0.1, textAlign: 'center', color: 'darkgray', borderColor: 'black'}}
+          selectTextOnFocus={true}
+          onChangeText={(confirmEmail) => this.setState({confirmEmail})}
+          value={this.state.confirmEmail}
+        />
+        <Text style={styles.instructions}>
+          Password*
+        </Text>
+        <TextInput 
+          style={{flex: 0.1, textAlign: 'center', color: 'darkgray', borderColor: 'black'}}
+          selectTextOnFocus={true}
+          secureTextEntry={true}
+          onChangeText={(password) => this.setState({password})}
+          value={this.state.password}
+        />
+        <Text style={styles.instructions}>
+          Confirm Password*
+        </Text>
+        <TextInput 
+          style={{flex: 0.1, textAlign: 'center', color: 'darkgray', borderColor: 'black'}}
+          selectTextOnFocus={true}
+          secureTextEntry={true}
+          onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+          value={this.state.confirmPassword}
+        />
+        <Image source={pic} style={{width: 200, height: 200}}/>
+      </View>
+    );
+  }
 }
-
-
-
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.4,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
@@ -49,14 +96,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
-  },
-  bigblue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  red: {
-    color: 'red',
   },
 });
 
