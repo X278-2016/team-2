@@ -7,25 +7,74 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  Image,
   StyleSheet,
   Text,
+  TextInput,
   View
 } from 'react-native';
 
 export default class Albert_Test extends Component {
+  constructor(props) {
+  	super(props); 
+  	this.state = {
+  		email: 'Email',
+  		confirmEmail: 'Confirm'
+  		password: '',
+  		confirmPassword:'',
+  	};
+  }
   render() {
+  	let pic = {
+  		uri: 'https://image.freepik.com/free-icon/thumbs-up_318-31579.jpg'
+  	};
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Sign up below!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+          Please fill in all required fields
         </Text>
         <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
+          Email*
         </Text>
+        <TextInput 
+          style={{height: 25, textAlign: 'center', color: 'darkgray', borderColor: 'black'}}
+          selectTextOnFocus={true}
+          onChangeText={(email) => this.setState({email})}
+          value={this.state.email}
+        />
+        <Text style={styles.instructions}>
+          Confirm Email*
+        </Text>
+        <TextInput 
+          style={{height: 25, textAlign: 'center', color: 'darkgray', borderColor: 'black'}}
+          selectTextOnFocus={true}
+          onChangeText={(confirmEmail) => this.setState({confirmEmail})}
+          value={this.state.confirmEmail}
+        />
+        <Text style={styles.instructions}>
+          Password*
+        </Text>
+        <TextInput 
+          style={{height: 25, textAlign: 'center', color: 'darkgray', borderColor: 'black'}}
+          selectTextOnFocus={true}
+          secureTextEntry={true}
+          onChangeText={(password) => this.setState({password})}
+          value={this.state.password}
+        />
+        <Text style={styles.instructions}>
+          Confirm Password*
+        </Text>
+        <TextInput 
+          style={{height: 25, textAlign: 'center', color: 'darkgray', borderColor: 'black'}}
+          selectTextOnFocus={true}
+          secureTextEntry={true}
+          onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+          value={this.state.confirmPassword}
+        />
+        <Image source={pic} style={{width: 200, height: 200}}/>
       </View>
     );
   }
