@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; 
 import { Component } from 'react';
 import React, {
   AppRegistry,
