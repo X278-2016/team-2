@@ -1,5 +1,5 @@
-'use strict'; 
-import { Component } from 'react';
+'use strict';
+import React, { Component } from 'react';
 import React, {
   AppRegistry,
   Text,
@@ -19,7 +19,7 @@ let app = new Firebase("YOUR-FIREBASE-APP-URL");
 
 import styles from './src/styles/common-styles.js';
 
-class TestProject extends Component {    
+class brennan_test extends Component {
 
   constructor(props){
     super(props);
@@ -80,4 +80,4 @@ class TestProject extends Component {
 }
 
 
-AppRegistry.registerComponent('TestProject', () => TestProject);
+AppRegistry.registerComponent('rnfirebaseauth', () => rnfirebaseauth);
