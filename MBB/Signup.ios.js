@@ -9,6 +9,8 @@ import {
   View
 } from 'react-native';
 
+import SignupSuccess from './SignupSuccess.ios.js';
+
 export default class Signup extends Component {
 constructor(props) {
       super(props);
@@ -70,16 +72,25 @@ constructor(props) {
           value={this.state.confirmPassword}
         />
         
-        <TouchableHighlight onPress={this.props.onSignup}>
+        <TouchableHighlight onPress={this.onSignup.bind(this)}>
           <Text> Submit! </Text>
         </TouchableHighlight>
         
-        <TouchableHighlight onPress={this.props.onBack}>
+        <TouchableHighlight onPress={this.onBack.bind(this)}>
           <Text>Tap me to go back</Text>
         </TouchableHighlight>
         <Image source={pic} style={{width: 200, height: 200}}/>
       </View>
     );
+  }
+  
+  onSignup(){
+    this.props.navigator.push({
+      component: SignupSuccess
+    });
+  }
+  onBack(){
+    this.props.navigator.pop()
   }
 }
 
