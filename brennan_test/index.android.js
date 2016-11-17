@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import React, {
+import {
   AppRegistry,
   Text,
   View,
@@ -15,11 +15,11 @@ import Header from './src/components/header';
 
 import Firebase from 'firebase';
 
-let app = new Firebase("YOUR-FIREBASE-APP-URL");
+let app = new Firebase("https://console.firebase.google.com/project/mobile-bulletin-board");
 
 import styles from './src/styles/common-styles.js';
 
-class brennan_test extends Component {
+export class brennan_test extends Component {    
 
   constructor(props){
     super(props);
@@ -69,7 +69,7 @@ class brennan_test extends Component {
     }else{
       return (
         <View style={styles.container}>
-          <Header text="React Native Firebase Auth" loaded={this.state.loaded} />  
+          <Header text="Test Hub Firebase App" loaded={this.state.loaded} />  
           <View style={styles.body}></View>
         </View>
       );
@@ -79,5 +79,4 @@ class brennan_test extends Component {
 
 }
 
-
-AppRegistry.registerComponent('rnfirebaseauth', () => rnfirebaseauth);
+AppRegistry.registerComponent('brennan_test', () => brennan_test);
