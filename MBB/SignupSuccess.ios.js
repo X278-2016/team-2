@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Navigator, TouchableHighlight } from 'react-native';
+import { 
+  View, 
+  Text, 
+  Navigator, 
+  TouchableHighlight,
+  StyleSheet,
+} from 'react-native';
 
 import Signup from './Signup.ios.js';
 export default class SignupSuccess extends Component {
@@ -19,3 +25,19 @@ export default class SignupSuccess extends Component {
     this.props.navigator.pop()
   }
 }
+
+const styles = StyleSheet.create({
+  layout: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'darkblue',
+  },
+  title: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+});

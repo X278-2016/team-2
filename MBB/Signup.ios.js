@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   Image,
   StyleSheet,
   Text,
@@ -9,7 +8,7 @@ import {
   View
 } from 'react-native';
 
-import SignupSuccess from './SignupSuccess.ios.js';
+import Home from './Home.ios.js';
 
 export default class Signup extends Component {
 constructor(props) {
@@ -27,7 +26,7 @@ constructor(props) {
       uri: 'https://image.freepik.com/free-icon/thumbs-up_318-31579.jpg'
     };
     return (
-      <View style={styles.container}>
+      <View style={styles.layout}>
         <Text style={styles.title}>
           Sign up below!
         </Text>
@@ -92,7 +91,7 @@ constructor(props) {
   
   onSignup(){
     this.props.navigator.push({
-      component: SignupSuccess
+      component: Home
     });
   }
   onBack(){
@@ -101,12 +100,11 @@ constructor(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  layout: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: 50,
-    //backgroundColor: 'darkblue',
   },
   title: {
     fontSize: 20,

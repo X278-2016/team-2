@@ -13,15 +13,17 @@ import {
   View
 } from 'react-native';
 
-import Signup from './Signup.ios.js';
-import SignupSuccess from './SignupSuccess.ios.js';
+import Login from './Login.ios.js';
+//import Signup from './Signup.ios.js';
+//import SignupSuccess from './SignupSuccess.ios.js';
+
 
 export default class MBB extends Component {
   
   constructor(props){
     super(props);
     this.state = {
-      component: Signup,
+      component: Login,
       loaded: false
     };
   }
@@ -45,8 +47,6 @@ export default class MBB extends Component {
     }else{
       return (
         <View style={styles.container}>
-          <Header text="React Native Firebase Auth" loaded={this.state.loaded} />  
-          <View style={styles.body}></View>
         </View>
       );
     }
