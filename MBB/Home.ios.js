@@ -26,7 +26,7 @@ export default class Home extends Component {
     )
   }
   onBack(){
-    this.props.navigator.popToTop();
+    this.props.navigator.popToTop()
   }
 }
 
