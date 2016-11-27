@@ -7,9 +7,21 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
+
+
 import Home from './Home.ios.js';
 import Signup from './Signup.ios.js';
 import pwReset from './PasswordReset.ios.js';
+
+import * as firebase from 'firebase';
+const firebaseconfig = {
+  apiKey: "AIzaSyCukG4JK4ejGue0oPlomMXNXIMn96mvbIo",
+  authDomain: "mobile-bulletin-board.firebaseapp.com",
+  databaseURL: "https://mobile-bulletin-board.firebaseio.com",
+  storageBucket: "mobile-bulletin-board.appspot.com",
+  messagingSenderId: "1002875644736"
+};
+
 
 export default class Login extends Component {
   constructor(props) {
@@ -67,12 +79,14 @@ export default class Login extends Component {
   }
   
   onLogin(){
-    //Login logic goes here
-    //If login successful, push the home component
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error){
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      //Handle errors and stuff here
+    });
     this.props.navigator.push({
       component: Home
     });
-    //Else fail them and retry, not entirely sure how
   }
   
   onSignup(){

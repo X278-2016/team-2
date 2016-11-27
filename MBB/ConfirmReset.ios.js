@@ -6,7 +6,6 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import confirmReset from './ConfirmReset.ios.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -21,7 +20,9 @@ export default class passwordReset extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      resetCode: '',
+      newPassword: '',
+      confirmPassword: '',
     };
   }
   render() {
@@ -31,31 +32,47 @@ export default class passwordReset extends Component {
           Password Reset
         </Text>
         <Text style={styles.label}>
-          Email
+          Confirmation Code
         </Text>
         <TextInput
           style={styles.input}
           selectTextOnFocus={true}
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.email}
+          onChangeText={(resetCode) => this.setState({resetCode})}
+          value={this.state.resetCode}
+        />
+        <Text style={styles.label}>
+          New Password
+        </Text>
+        <TextInput
+          style={styles.input}
+          selectTextOnFocus={true}
+          onChangeText={(newPassword) => this.setState({newPassword})}
+          value={this.state.newPassword}
+        />
+        <Text style={styles.label}>
+          Confirm Password
+        </Text>
+        <TextInput
+          style={styles.input}
+          selectTextOnFocus={true}
+          onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+          value={this.state.confirmPassword}
         />  
-        <TouchableHighlight style={styles.button} onPress={this.sendResetEmail.bind(this)}>
+        <TouchableHighlight style={styles.button} onPress={this.pwReset.bind(this)}>
           <Text style={styles.buttonText}>Send Reset Email</Text>
         </TouchableHighlight>
       </View>
     )
   }
-  sendResetEmail(){
+  pwReset(){
     //send reset email and take them back to login
     //Not sure what features firebase offers but they probably have something
-    firebase.auth().sendPasswordResetEmail(this.state.email).catch(function(error) {
+    firebase.auth().confirmPasswordReset(this.state.resetCode, this.state.newPassword).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
       // Handle errors here
     });
-    //Shouldn't need to log the user out
-    //Unless we allow them to reset password from the profile page
-    this.props.navigator.popToTop();
+    this.props.navigator.popToTop()
   }
 }
 

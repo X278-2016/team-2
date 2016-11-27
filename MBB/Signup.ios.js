@@ -10,6 +10,18 @@ import {
 
 import Home from './Home.ios.js';
 
+import * as firebase from 'firebase';
+const firebaseconfig = {
+  apiKey: "AIzaSyCukG4JK4ejGue0oPlomMXNXIMn96mvbIo",
+  authDomain: "mobile-bulletin-board.firebaseapp.com",
+  databaseURL: "https://mobile-bulletin-board.firebaseio.com",
+  storageBucket: "mobile-bulletin-board.appspot.com",
+  messagingSenderId: "1002875644736"
+};
+
+//firebase.initializeApp(firebaseconfig);
+
+
 export default class Signup extends Component {
 constructor(props) {
       super(props);
@@ -18,7 +30,8 @@ constructor(props) {
           email: '',
           confirmEmail: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
+          invalid: false,
       };
   }
   render() {
@@ -90,6 +103,20 @@ constructor(props) {
   }
   
   onSignup(){
+    if(this.state.email != this.state.confirmEmail){
+      this.setState({invalid: true})
+      //find some way to show the emails don't match
+    };
+    if(this.state.password != this.state.confirmPassword){
+      this.setState({invalid:true})
+      //find some way to show the passwords don't match
+    };
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+    });
     this.props.navigator.push({
       component: Home
     });
@@ -104,23 +131,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 50,
+    backgroundColor: 'darkblue',
   },
   title: {
-    fontSize: 20,
+    fontSize: 30,
     textAlign: 'center',
-    margin: 10,
-    backgroundColor: 'white',
+    margin: 40,
+    color: 'white',
+    fontWeight: 'bold',
   },
   instructions: {
     textAlign: 'center',
     marginBottom: 25,
+    color: 'white',
   },
   label: {
     textAlign: 'center',
-    color: '#333333',
+    color: 'white',
     marginBottom: 5,
-    backgroundColor: 'white',
   },
   input: {
     borderStyle: 'solid',

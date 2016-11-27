@@ -12,10 +12,22 @@ import {
   Text,
   View
 } from 'react-native';
+import * as firebase from 'firebase';
 
 import Login from './Login.ios.js';
 //import Signup from './Signup.ios.js';
 //import SignupSuccess from './SignupSuccess.ios.js';
+
+
+  const firebaseconfig = {
+    apiKey: "AIzaSyCukG4JK4ejGue0oPlomMXNXIMn96mvbIo",
+    authDomain: "mobile-bulletin-board.firebaseapp.com",
+    databaseURL: "https://mobile-bulletin-board.firebaseio.com",
+    storageBucket: "mobile-bulletin-board.appspot.com",
+    messagingSenderId: "1002875644736"
+  };
+
+firebase.initializeApp(firebaseconfig);
 
 
 export default class MBB extends Component {
