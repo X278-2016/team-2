@@ -12,50 +12,62 @@ import {
   Text,
   View
 } from 'react-native';
+import * as firebase from 'firebase';
 
-import Signup from './Signup.ios.js';
-import SignupSuccess from './SignupSuccess.ios.js';
+import Login from './Login.ios.js';
+//import Signup from './Signup.ios.js';
+//import SignupSuccess from './SignupSuccess.ios.js';
+
+
+  const firebaseconfig = {
+    apiKey: "AIzaSyCukG4JK4ejGue0oPlomMXNXIMn96mvbIo",
+    authDomain: "mobile-bulletin-board.firebaseapp.com",
+    databaseURL: "https://mobile-bulletin-board.firebaseio.com",
+    storageBucket: "mobile-bulletin-board.appspot.com",
+    messagingSenderId: "1002875644736"
+  };
+
+firebase.initializeApp(firebaseconfig);
+
 
 export default class MBB extends Component {
-  render() {
-    return (
-      <Navigator
-        initialRoute={{ title: 'My Initial Scene', index: 0 }}
-        renderScene={(route, navigator) =>
-          <Signup
-            title={route.title}
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      component: Login,
+      loaded: false
+    };
+  }
 
-            // Function to call when a new scene should be displayed           
-            onForward={ () => {    
-              const nextIndex = route.index + 1;
-              navigator.push({
-                title: 'Scene ' + nextIndex,
-                index: nextIndex,
-              });
-            }}
-            onSignup={ () => {
-              const nextIndex = route.index + 1;
-              navigator.push({
-                title: 'SignupSuccess',
-                index: nextIndex,
-              });
-            }}
+  render(){
+    //Using code snippet from https://www.sitepoint.com/authentication-in-react-native-with-firebase/
+    if(this.state.component){
+      return (
+        <Navigator
+          initialRoute={{component: this.state.component}}
+          configureScene={() => {
+            return Navigator.SceneConfigs.FloatFromRight;
+          }}
+          renderScene={(route, navigator) => {
+            if(route.component){
+              return React.createElement(route.component, { navigator });
+            }
+          }}
+        />
+      );
+    }else{
+      return (
+        <View style={styles.container}>
+        </View>
+      );
+    }
 
-            // Function to call to go back to the previous scene
-            onBack={() => {
-              if (route.index > 0) {
-                navigator.pop();
-              }
-            }}
-          />
-        }
-      />
-    )
   }
 }
+
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
