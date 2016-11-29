@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import Home from './Home.ios.js';
+import Profile from './Profile.ios.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -19,8 +20,6 @@ const firebaseconfig = {
   messagingSenderId: "1002875644736"
 };
 
-//firebase.initializeApp(firebaseconfig);
-
 
 export default class Signup extends Component {
 constructor(props) {
@@ -28,7 +27,6 @@ constructor(props) {
       this.state = {
           name: '',
           email: '',
-          confirmEmail: '',
           password: '',
           confirmPassword: '',
           invalid: false,
@@ -43,11 +41,11 @@ constructor(props) {
         <Text style={styles.title}>
           Sign up below!
         </Text>
-        <Text style={styles.instructions}>
-          Required fields are marked with an asterisk*
+      <Text style={styles.instructions}>
+          All fields are required
         </Text>
         <Text style={styles.label}>
-          Name*
+          Name
         </Text>
         <TextInput 
           style={styles.input}
@@ -56,7 +54,7 @@ constructor(props) {
           value={this.state.name}
         />
         <Text style={styles.label}>
-          Email*
+          Email
         </Text>
         <TextInput 
           style={styles.input}
@@ -65,16 +63,7 @@ constructor(props) {
           value={this.state.email}
         />
         <Text style={styles.label}>
-          Confirm Email*
-        </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(confirmEmail) => this.setState({confirmEmail})}
-          value={this.state.confirmEmail}
-        />
-        <Text style={styles.label}>
-          Password*
+          Password
         </Text>
         <TextInput 
           style={styles.input}
@@ -84,7 +73,7 @@ constructor(props) {
           value={this.state.password}
         />
         <Text style={styles.label}>
-          Confirm Password*
+          Confirm Password
         </Text>
         <TextInput 
           style={styles.input}
@@ -93,7 +82,6 @@ constructor(props) {
           onChangeText={(confirmPassword) => this.setState({confirmPassword})}
           value={this.state.confirmPassword}
         />
-        
         <TouchableHighlight style={styles.button} onPress={this.onSignup.bind(this)}>
           <Text style={styles.buttonText}> Submit </Text>
         </TouchableHighlight>
@@ -103,22 +91,17 @@ constructor(props) {
   }
   
   onSignup(){
-    if(this.state.email != this.state.confirmEmail){
-      this.setState({invalid: true})
-      //find some way to show the emails don't match
-    };
-    if(this.state.password != this.state.confirmPassword){
-      this.setState({invalid:true})
-      //find some way to show the passwords don't match
-    };
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+    firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       // ...
     });
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
+      name: this.state.name,
+    });
     this.props.navigator.push({
-      component: Home
+      component: Profile
     });
   }
   onBack(){

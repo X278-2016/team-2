@@ -18,12 +18,11 @@ const firebaseconfig = {
 };
 
 
-export default class Home extends Component {
+export default class Profile extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        name: '',
-        data: '',
+        name: firebase.database().ref('users/' + firebase.auth().currentUser.uid).once('value').resolve,
       };
   }
   
@@ -31,24 +30,22 @@ export default class Home extends Component {
     return (
       <View style={styles.layout}>
         <Text style={styles.title}>
-          Insert Home Page Here.
+          Your Profile
         </Text>
         <Text style={styles.label}>
-          userdb is {firebase.auth().currentUser.uid}
+          Email
         </Text>
         <Text style={styles.label}>
-          You are signed in as {this.state.name}
+          {firebase.auth().currentUser.email}
         </Text>
-        
-      
         <Text style={styles.label}>
-          Enter data to send to firebase
+          Name
         </Text>
         <TextInput 
           style={styles.input}
           selectTextOnFocus={true}
-          onChangeText={(data) => this.setState({data})}
-          value={this.state.data}
+          onChangeText={(data) => this.setState({name})}
+          value={this.state.name}
         />
         <TouchableHighlight style={styles.button}
         onPress={this.writeToFirebase.bind(this)}>
@@ -70,9 +67,9 @@ export default class Home extends Component {
     this.props.navigator.popToTop()
   }
   writeToFirebase(){
-    firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
+    firebase.database().ref('users/' + this.state.currentUser.email).set({
       email: this.state.currentUser.email,
-      data: this.state.data,
+      bio: this.state.data,
     });
   }
 }

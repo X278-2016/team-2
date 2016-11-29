@@ -15,9 +15,6 @@ import {
 import * as firebase from 'firebase';
 
 import Login from './Login.ios.js';
-//import Signup from './Signup.ios.js';
-//import SignupSuccess from './SignupSuccess.ios.js';
-
 
   const firebaseconfig = {
     apiKey: "AIzaSyCukG4JK4ejGue0oPlomMXNXIMn96mvbIo",

@@ -12,6 +12,7 @@ import {
 import Home from './Home.ios.js';
 import Signup from './Signup.ios.js';
 import pwReset from './PasswordReset.ios.js';
+import Profile from './Profile.ios.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -85,7 +86,7 @@ export default class Login extends Component {
       //Handle errors and stuff here
     });
     this.props.navigator.push({
-      component: Home
+      component: Profile
     });
   }
   
