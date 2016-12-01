@@ -151,6 +151,11 @@ constructor(props) {
           break;
         case 'auth/operation-not-allowed':
           Alert.alert('Operation Not Allowed','Email/password accounts are not enabled.');
+          break;
+        default:
+          this.props.navigator.push({
+            component: Home
+          });
       }
     });
     this.props.navigator.push({
