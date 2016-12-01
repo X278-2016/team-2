@@ -8,6 +8,7 @@ import {
   View
 } from 'react-native';
 
+
 import * as firebase from 'firebase';
 const firebaseconfig = {
   apiKey: "AIzaSyCukG4JK4ejGue0oPlomMXNXIMn96mvbIo",
@@ -20,21 +21,27 @@ const firebaseconfig = {
 
 export default class Home extends Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        name: '',
-        data: '',
-      };
+    super(props);
+    this.state = {
+      dbref: firebase.database().ref('users/' + firebase.auth().currentUser.uid),
+      name: '',
+    };
+    this.state.dbref.once('value', snapshot => {
+      this.setState({name: snapshot.val().name});
+    });
   }
   
   render() {
     return (
       <View style={styles.layout}>
+        <TouchableHighlight style={styles.pitchButton}
+        onPress={this.onLogout.bind(this)}>
+          <Text style={styles.pitchButtonText}>
+            Pitch!
+          </Text>
+        </TouchableHighlight>
         <Text style={styles.title}>
-          Insert Home Page Here.
-        </Text>
-        <Text style={styles.label}>
-          userdb is {firebase.auth().currentUser.uid}
+          This will be a list of stuff to look at!
         </Text>
         <Text style={styles.label}>
           You are signed in as {this.state.name}
@@ -51,12 +58,6 @@ export default class Home extends Component {
           value={this.state.data}
         />
         <TouchableHighlight style={styles.button}
-        onPress={this.writeToFirebase.bind(this)}>
-          <Text style={styles.buttonText}>
-            Send that junk to firebase
-          </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button}
         onPress={this.onLogout.bind(this)}>
           <Text style={styles.buttonText}>
             Logout
@@ -69,17 +70,11 @@ export default class Home extends Component {
     firebase.auth().signOut()
     this.props.navigator.popToTop()
   }
-  writeToFirebase(){
-    firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
-      email: this.state.currentUser.email,
-      data: this.state.data,
-    });
-  }
 }
 
 const styles = StyleSheet.create({
   layout: {
-    flex: 1,
+    flex: 1, 
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'darkblue',
@@ -112,13 +107,28 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     height: 50,
     width: 250,
-    marginBottom: 50,
+    marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
     color: 'white',
     fontSize: 20,
+    fontWeight: 'bold',
+  },
+  pitchButton: {
+    borderStyle: 'solid',
+    borderColor: 'darkblue',
+    backgroundColor: 'red',
+    height: 75,
+    width: 350,
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pitchButtonText: {
+    color: 'white',
+    fontSize: 60,
     fontWeight: 'bold',
   },
 });

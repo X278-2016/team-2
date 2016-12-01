@@ -99,6 +99,7 @@ constructor(props) {
     });
     firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
       name: this.state.name,
+      email: this.state.email,
     });
     this.props.navigator.push({
       component: Profile

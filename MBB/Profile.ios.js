@@ -8,6 +8,8 @@ import {
   View
 } from 'react-native';
 
+import Home from './Home.ios.js';
+
 import * as firebase from 'firebase';
 const firebaseconfig = {
   apiKey: "AIzaSyCukG4JK4ejGue0oPlomMXNXIMn96mvbIo",
@@ -22,8 +24,17 @@ export default class Profile extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        name: firebase.database().ref('users/' + firebase.auth().currentUser.uid).once('value').resolve,
+        dbref: firebase.database().ref('users/' + firebase.auth().currentUser.uid),
+        name: '',
+        bio: '',
       };
+    this.state.dbref.once('value', snapshot => {
+      this.setState({name: snapshot.val().name});
+    });
+    this.state.dbref.once('value', snapshot => {
+      this.setState({bio: snapshot.val().bio});
+    });
+    
   }
   
   render() {
@@ -44,13 +55,30 @@ export default class Profile extends Component {
         <TextInput 
           style={styles.input}
           selectTextOnFocus={true}
-          onChangeText={(data) => this.setState({name})}
+          onChangeText={(name) => this.setState({name})}
           value={this.state.name}
         />
+        <Text style={styles.label}>
+          Bio
+        </Text>
+        <TextInput 
+          style={styles.multilineInput}
+          multiline = {true}
+          numberOfLines = {4}
+          selectTextOnFocus={true}
+          onChangeText={(bio) => this.setState({bio})}
+          value={this.state.bio}
+        />
         <TouchableHighlight style={styles.button}
-        onPress={this.writeToFirebase.bind(this)}>
+        onPress={this.updateProfile.bind(this)}>
           <Text style={styles.buttonText}>
-            Send that junk to firebase
+            Update Profile
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.button}
+        onPress={this.goToHub.bind(this)}>
+          <Text style={styles.buttonText}>
+            Go to Hub
           </Text>
         </TouchableHighlight>
         <TouchableHighlight style={styles.button}
@@ -66,10 +94,16 @@ export default class Profile extends Component {
     firebase.auth().signOut()
     this.props.navigator.popToTop()
   }
-  writeToFirebase(){
-    firebase.database().ref('users/' + this.state.currentUser.email).set({
-      email: this.state.currentUser.email,
-      bio: this.state.data,
+  goToHub(){
+    this.props.navigator.push({
+      component: Home
+    });
+  }
+  updateProfile(){
+    this.state.dbref.set({
+      name: this.state.name,
+      email: firebase.auth().currentUser.email,
+      bio: this.state.bio,
     });
   }
 }
@@ -103,13 +137,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
   },
+  multilineInput: {
+    borderStyle: 'solid',
+    backgroundColor: 'whitesmoke',
+    height: 100,
+    marginLeft: 25,
+    marginRight: 25,
+    marginBottom: 10,
+    alignItems: 'center',
+    textAlign: 'center',
+  },
   button: {
     borderStyle: 'solid',
     borderColor: 'darkblue',
     backgroundColor: 'red',
     height: 50,
     width: 250,
-    marginBottom: 50,
+    marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
