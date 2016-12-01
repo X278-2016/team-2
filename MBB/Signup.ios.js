@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
+  Alert,
   View
 } from 'react-native';
 
@@ -49,50 +50,70 @@ constructor(props) {
         <Text style={styles.label}>
           Name*
         </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(name) => this.setState({name})}
-          value={this.state.name}
-        />
+        <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput
+              style={styles.input}
+              selectTextOnFocus={true}
+              onChangeText={(name) => this.setState({name})}
+              value={this.state.name}
+            />
+            <View style={{flex:0.15}}></View>
+        </View>
         <Text style={styles.label}>
           Email*
         </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.email}
-        />
+        <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput
+              style={styles.input}
+              selectTextOnFocus={true}
+              onChangeText={(email) => this.setState({email})}
+              value={this.state.email}
+            />
+            <View style={{flex:0.15}}></View>
+        </View>
         <Text style={styles.label}>
           Confirm Email*
         </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(confirmEmail) => this.setState({confirmEmail})}
-          value={this.state.confirmEmail}
-        />
+        <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput
+              style={styles.input}
+              selectTextOnFocus={true}
+              onChangeText={(confirmEmail) => this.setState({confirmEmail})}
+              value={this.state.confirmEmail}
+            />
+            <View style={{flex:0.15}}></View>
+        </View>
         <Text style={styles.label}>
           Password*
         </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          secureTextEntry={true}
-          onChangeText={(password) => this.setState({password})}
-          value={this.state.password}
-        />
+        <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput
+              style={styles.input}
+              selectTextOnFocus={true}
+              secureTextEntry={true}
+              onChangeText={(password) => this.setState({password})}
+              value={this.state.password}
+            />
+            <View style={{flex:0.15}}></View>
+        </View>
         <Text style={styles.label}>
           Confirm Password*
         </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          secureTextEntry={true}
-          onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-          value={this.state.confirmPassword}
-        />
+        <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput
+              style={styles.input}
+              selectTextOnFocus={true}
+              secureTextEntry={true}
+              onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+              value={this.state.confirmPassword}
+            />
+            <View style={{flex:0.15}}></View>
+        </View>
         
         <TouchableHighlight style={styles.button} onPress={this.onSignup.bind(this)}>
           <Text style={styles.buttonText}> Submit </Text>
@@ -103,6 +124,9 @@ constructor(props) {
   }
   
   onSignup(){
+    if(this.state.name == '') {
+        this.setState({invalid: true})
+    }
     if(this.state.email != this.state.confirmEmail){
       this.setState({invalid: true})
       //find some way to show the emails don't match
@@ -115,7 +139,19 @@ constructor(props) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      // ...
+      switch (errorCode) {
+        case 'auth/email-already-in-use':
+          Alert.alert('Email In Use','There is already an account with that email.');
+          break;
+        case 'auth/invalid-email':
+          Alert.alert('Invalid Email','The email address you entered is not a valid email.');
+          break;
+        case 'auth/weak-password':
+          Alert.alert('Weak Password','Your password is too weak. Try a stronger password.');
+          break;
+        case 'auth/operation-not-allowed':
+          Alert.alert('Operation Not Allowed','Email/password accounts are not enabled.');
+      }
     });
     this.props.navigator.push({
       component: Home
@@ -151,14 +187,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   input: {
-    borderStyle: 'solid',
-    backgroundColor: 'whitesmoke',
-    height: 25,
-    marginLeft: 25,
-    marginRight: 25,
+    flex:0.7,
+    height: 35,
     marginBottom: 10,
     alignItems: 'center',
     textAlign: 'center',
+    backgroundColor: 'whitesmoke',
+    borderStyle: 'solid',
   },
   button: {
     borderStyle: 'solid',
