@@ -15,6 +15,7 @@ import {
 import * as firebase from 'firebase';
 
 import Login from './Login.ios.js';
+import Profile from './Profile.ios.js';
 
   const firebaseconfig = {
     apiKey: "AIzaSyCukG4JK4ejGue0oPlomMXNXIMn96mvbIo",
@@ -32,17 +33,16 @@ export default class MBB extends Component {
   constructor(props){
     super(props);
     this.state = {
-      component: Login,
       loaded: false
     };
   }
 
   render(){
     //Using code snippet from https://www.sitepoint.com/authentication-in-react-native-with-firebase/
-    if(this.state.component){
+    if(firebase.auth().currentUser){
       return (
         <Navigator
-          initialRoute={{component: this.state.component}}
+          initialRoute={{component: Profile}}
           configureScene={() => {
             return Navigator.SceneConfigs.FloatFromRight;
           }}
@@ -53,13 +53,22 @@ export default class MBB extends Component {
           }}
         />
       );
-    }else{
+    }
+    else{
       return (
-        <View style={styles.container}>
-        </View>
+        <Navigator
+          initialRoute={{component: Login}}
+          configureScene={() => {
+            return Navigator.SceneConfigs.FloatFromRight;
+          }}
+          renderScene={(route, navigator) => {
+            if(route.component){
+              return React.createElement(route.component, { navigator });
+            }
+          }}
+        />
       );
     }
-
   }
 }
 

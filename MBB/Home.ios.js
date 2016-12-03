@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   Image,
+  ListView,
   StyleSheet,
   Text,
   TextInput,
@@ -22,13 +23,21 @@ const firebaseconfig = {
 export default class Home extends Component {
   constructor(props) {
     super(props);
+    this.itemsRef = firebase.database().ref('projects/');
     this.state = {
       dbref: firebase.database().ref('users/' + firebase.auth().currentUser.uid),
       name: '',
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      })
     };
     this.state.dbref.once('value', snapshot => {
       this.setState({name: snapshot.val().name});
     });
+  }
+  
+  componentDidMount() {
+    this.listenForItems(this.itemsRef);
   }
   
   render() {
@@ -43,10 +52,12 @@ export default class Home extends Component {
         <Text style={styles.title}>
           This will be a list of stuff to look at!
         </Text>
+          {/*<ListView datasource={this.state.dataSource}
+        renderRow={this._renderItem.bind(this)}
+        style={styles.list}/>*/}
         <Text style={styles.label}>
-          You are signed in as {this.state.name}
+          This reference returns {this.state.dataSource}
         </Text>
-        
       
         <Text style={styles.label}>
           Enter data to send to firebase
@@ -69,6 +80,31 @@ export default class Home extends Component {
   onLogout(){
     firebase.auth().signOut()
     this.props.navigator.popToTop()
+  }
+
+_renderItem(item){
+  return (
+    <ListItem item={item} onPress={() => this.setState({name: "buttonpresser"})}/>
+  );
+}
+
+  listenForItems(itemsRef) {
+    itemsRef.on('value', (snap) => {
+
+      // get children as an array
+      var items = [];
+      snap.forEach((child) => {
+        items.push({
+          title: child.val().title,
+          _key: child.key
+        });
+      });
+
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(items)
+      });
+
+    });
   }
 }
 

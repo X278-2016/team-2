@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   Image,
   StyleSheet,
   Text,
@@ -82,8 +83,17 @@ constructor(props) {
           onChangeText={(confirmPassword) => this.setState({confirmPassword})}
           value={this.state.confirmPassword}
         />
-        <TouchableHighlight style={styles.button} onPress={this.onSignup.bind(this)}>
-          <Text style={styles.buttonText}> Submit </Text>
+        <TouchableHighlight style={styles.button} 
+        onPress={this.onSignup.bind(this)}>
+          <Text style={styles.buttonText}> 
+            Submit 
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.button} 
+        onPress={this.onBack.bind(this)}>
+          <Text style={styles.buttonText}> 
+            Go Back 
+          </Text>
         </TouchableHighlight>
           {/*<Image source={pic} style={{width: 200, height: 200}}/> */}
       </View>
@@ -95,14 +105,28 @@ constructor(props) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      // ...
-    });
-    firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
-      name: this.state.name,
-      email: this.state.email,
-    });
-    this.props.navigator.push({
-      component: Profile
+      switch (errorCode) {
+        case 'auth/email-already-in-use':
+          Alert.alert('Email In Use','There is already an account with that email.');
+          break;
+        case 'auth/invalid-email':
+          Alert.alert('Invalid Email','The email address you entered is not a valid email.');
+          break;
+        case 'auth/weak-password':
+          Alert.alert('Weak Password','Your password is too weak. Try a stronger password.');
+          break;
+        case 'auth/operation-not-allowed':
+          Alert.alert('Operation Not Allowed','Email/password accounts are not enabled.');
+          break;
+        default:
+          firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
+            name: this.state.name,
+            email: this.state.email,
+          });
+          this.props.navigator.push({
+            component: Home
+          });
+      }
     });
   }
   onBack(){
@@ -150,6 +174,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     height: 50,
     width: 150,
+    marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -38,6 +38,9 @@ export default class Login extends Component {
         <Text style={styles.title}>
           Login
         </Text>
+      {/*<Text style={styles.label}>
+          You are signed in as {firebase.auth().currentUser.uid}
+        </Text>*/}
         <Text style={styles.label}>
           Email
         </Text>
