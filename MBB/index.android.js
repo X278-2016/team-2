@@ -15,6 +15,7 @@ import {
 import * as firebase from 'firebase';
 
 import Login from './Login.android.js';
+import Profile from './Profile.android.js';
 //import Signup from './Signup.ios.js';
 //import SignupSuccess from './SignupSuccess.ios.js';
 
@@ -38,13 +39,15 @@ export default class MBB extends Component {
       component: Login,
       loaded: false
     };
+  }
+/*
+  componentWillMount() {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         this.setState({component: Profile})
       }
-});
-
-  }
+    });
+  }*/
 
   render(){
     //Using code snippet from https://www.sitepoint.com/authentication-in-react-native-with-firebase/

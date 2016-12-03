@@ -13,6 +13,7 @@ import {
 import Home from './Home.android.js';
 import Signup from './Signup.android.js';
 import pwReset from './PasswordReset.android.js';
+import Profile from './Profile.android.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -107,7 +108,7 @@ export default class Login extends Component {
           break;
         default:
           this.props.navigator.push({
-            component: Home
+            component: Profile
           });
       }
     });

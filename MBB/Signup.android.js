@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import Home from './Home.android.js';
+import Profile from './Profile.android.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -74,19 +75,6 @@ constructor(props) {
             <View style={{flex:0.15}}></View>
         </View>
         <Text style={styles.label}>
-          Confirm Email*
-        </Text>
-        <View style = {{flexDirection: 'row'}}>
-            <View style={{flex:0.15}}></View>
-            <TextInput
-              style={styles.input}
-              selectTextOnFocus={true}
-              onChangeText={(confirmEmail) => this.setState({confirmEmail})}
-              value={this.state.confirmEmail}
-            />
-            <View style={{flex:0.15}}></View>
-        </View>
-        <Text style={styles.label}>
           Password*
         </Text>
         <View style = {{flexDirection: 'row'}}>
@@ -100,21 +88,6 @@ constructor(props) {
             />
             <View style={{flex:0.15}}></View>
         </View>
-        <Text style={styles.label}>
-          Confirm Password*
-        </Text>
-        <View style = {{flexDirection: 'row'}}>
-            <View style={{flex:0.15}}></View>
-            <TextInput
-              style={styles.input}
-              selectTextOnFocus={true}
-              secureTextEntry={true}
-              onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-              value={this.state.confirmPassword}
-            />
-            <View style={{flex:0.15}}></View>
-        </View>
-        
         <TouchableHighlight style={styles.button} onPress={this.onSignup.bind(this)}>
           <Text style={styles.buttonText}> Submit </Text>
         </TouchableHighlight>
@@ -124,19 +97,10 @@ constructor(props) {
   }
   
   onSignup(){
-    if(this.state.name == '') {
-        this.setState({invalid: true})
-    }
-    if(this.state.email != this.state.confirmEmail){
-      this.setState({invalid: true})
-      //find some way to show the emails don't match
-    };
-    if(this.state.password != this.state.confirmPassword){
-      this.setState({invalid:true})
-      //find some way to show the passwords don't match
-    };
+    var noError = true;
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
       // Handle Errors here.
+      noError = false;
       var errorCode = error.code;
       var errorMessage = error.message;
       switch (errorCode) {
@@ -152,16 +116,17 @@ constructor(props) {
         case 'auth/operation-not-allowed':
           Alert.alert('Operation Not Allowed','Email/password accounts are not enabled.');
           break;
-        default:
-          this.props.navigator.push({
-            component: Home
-          });
       }
     });
-    firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
-      name: this.state.name,
-      email: this.state.email,
-    });
+    if (noError) {
+      firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
+        name: this.state.name,
+        email: this.state.email,
+      });
+      this.props.navigator.push({
+        component: Profile
+      });
+    }
   }
   onBack(){
     this.props.navigator.pop()
