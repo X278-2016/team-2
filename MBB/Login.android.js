@@ -3,15 +3,16 @@ import {
   Image,
   StyleSheet,
   Text,
+  Alert,
   TextInput,
   TouchableHighlight,
   View
 } from 'react-native';
 
 
-import Home from './Home.ios.js';
-import Signup from './Signup.ios.js';
-import pwReset from './PasswordReset.ios.js';
+import Home from './Home.android.js';
+import Signup from './Signup.android.js';
+import pwReset from './PasswordReset.android.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -40,22 +41,30 @@ export default class Login extends Component {
         <Text style={styles.label}>
           Email
         </Text>
-        <TextInput
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.email}
-        />
+        <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput
+              style={styles.input}
+              selectTextOnFocus={true}
+              onChangeText={(email) => this.setState({email})}
+              value={this.state.email}
+            />
+            <View style={{flex:0.15}}></View>
+        </View>
         <Text style={styles.label}>
           Password
         </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          secureTextEntry={true}
-          onChangeText={(password) => this.setState({password})}
-          value={this.state.password}
-        />
+        <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput 
+              style={styles.input}
+              selectTextOnFocus={true}
+              secureTextEntry={true}
+              onChangeText={(password) => this.setState({password})}
+              value={this.state.password}
+            />
+            <View style={{flex:0.15}}></View>
+        </View>
         <TouchableHighlight style={styles.loginButton}
         onPress={this.onLogin.bind(this)}>
           <Text style={styles.loginText}>
@@ -83,9 +92,24 @@ export default class Login extends Component {
       var errorCode = error.code;
       var errorMessage = error.message;
       //Handle errors and stuff here
-    });
-    this.props.navigator.push({
-      component: Home
+      switch (errorCode) {
+        case 'auth/user-disabled':
+          Alert.alert('Account Disabled','The account corresponding to the email you entered has been disabled.');
+          break;
+        case 'auth/invalid-email':
+          Alert.alert('Invalid Email','The email address you entered is not a valid email.');
+          break;
+        case 'auth/user-not-found':
+          Alert.alert('User Not Found','There is no account with the email you entered.');
+          break;
+        case 'auth/wrong-password':
+          Alert.alert('Wrong Password','The email and password you entered do not match.');
+          break;
+        default:
+          this.props.navigator.push({
+            component: Home
+          });
+      }
     });
   }
   
@@ -122,16 +146,16 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   input: {
-    borderStyle: 'solid',
-    backgroundColor: 'whitesmoke',
-    height: 25,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
+    flex:0.7,
+    height: 35,
+    marginBottom: 5,
     alignItems: 'center',
     textAlign: 'center',
+    backgroundColor: 'whitesmoke',
+    borderStyle: 'solid',
   },
   loginButton: {
+    marginTop: 5,
     borderStyle: 'solid',
     borderColor: 'darkblue',
     backgroundColor: 'red',

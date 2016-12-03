@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import * as firebase from 'firebase';
 
-import Login from './Login.ios.js';
+import Login from './Login.android.js';
 //import Signup from './Signup.ios.js';
 //import SignupSuccess from './SignupSuccess.ios.js';
 
@@ -38,6 +38,12 @@ export default class MBB extends Component {
       component: Login,
       loaded: false
     };
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        this.setState({component: Profile})
+      }
+});
+
   }
 
   render(){

@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 
-import Home from './Home.ios.js';
+import Home from './Home.android.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -158,8 +158,9 @@ constructor(props) {
           });
       }
     });
-    this.props.navigator.push({
-      component: Home
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
+      name: this.state.name,
+      email: this.state.email,
     });
   }
   onBack(){
@@ -177,13 +178,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     textAlign: 'center',
-    margin: 40,
+    margin: 15,
     color: 'white',
     fontWeight: 'bold',
   },
   instructions: {
     textAlign: 'center',
-    marginBottom: 25,
+    marginBottom: 15,
     color: 'white',
   },
   label: {
@@ -194,13 +195,14 @@ const styles = StyleSheet.create({
   input: {
     flex:0.7,
     height: 35,
-    marginBottom: 10,
+    marginBottom: 5,
     alignItems: 'center',
     textAlign: 'center',
     backgroundColor: 'whitesmoke',
     borderStyle: 'solid',
   },
   button: {
+    marginTop: 5,
     borderStyle: 'solid',
     borderColor: 'darkblue',
     backgroundColor: 'red',

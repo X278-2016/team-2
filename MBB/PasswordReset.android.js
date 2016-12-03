@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import confirmReset from './ConfirmReset.ios.js';
+import confirmReset from './ConfirmReset.android.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
