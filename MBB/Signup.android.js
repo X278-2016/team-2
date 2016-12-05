@@ -25,7 +25,7 @@ const firebaseconfig = {
 
 
 export default class Signup extends Component {
-constructor(props) {
+  constructor(props) {
       super(props);
       this.state = {
           name: '',
@@ -35,7 +35,9 @@ constructor(props) {
           confirmPassword: '',
           invalid: false,
       };
+      this.onSignup = this.onSignup.bind(this);     
   }
+
   render() {
     let pic = {
       uri: 'https://image.freepik.com/free-icon/thumbs-up_318-31579.jpg'
@@ -97,10 +99,8 @@ constructor(props) {
   }
   
   onSignup(){
-    var noError = true;
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
       // Handle Errors here.
-      noError = false;
       var errorCode = error.code;
       var errorMessage = error.message;
       switch (errorCode) {
@@ -118,15 +118,17 @@ constructor(props) {
           break;
       }
     });
-    if (noError) {
-      firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
-        name: this.state.name,
-        email: this.state.email,
-      });
-      this.props.navigator.push({
-        component: Profile
-      });
-    }
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
+          name: this.state.name,
+          email: this.state.email,
+        });
+        this.props.navigator.push({
+          component: Profile
+        });
+      }
+    }.bind(this));
   }
   onBack(){
     this.props.navigator.pop()
