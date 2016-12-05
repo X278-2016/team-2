@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 
-import Home from './Home.android.js';
+import Home from './Home.ios.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -28,15 +28,13 @@ export default class Profile extends Component {
         name: '',
         bio: '',
       };
-  }
-
-  componentWillMount() {
     this.state.dbref.once('value', snapshot => {
       this.setState({name: snapshot.val().name});
     });
     this.state.dbref.once('value', snapshot => {
       this.setState({bio: snapshot.val().bio});
     });
+    
   }
   
   render() {
@@ -54,31 +52,23 @@ export default class Profile extends Component {
         <Text style={styles.label}>
           Name
         </Text>
-        <View style = {{flexDirection: 'row'}}>
-          <View style={{flex:0.15}}></View>
-          <TextInput 
-            style={styles.input}
-            selectTextOnFocus={true}
-            onChangeText={(name) => this.setState({name})}
-            value={this.state.name}
-          />
-          <View style={{flex:0.15}}></View>
-        </View>
+        <TextInput 
+          style={styles.input}
+          selectTextOnFocus={true}
+          onChangeText={(name) => this.setState({name})}
+          value={this.state.name}
+        />
         <Text style={styles.label}>
           Bio
         </Text>
-        <View style = {{flexDirection: 'row'}}>
-          <View style={{flex:0.15}}></View>
-          <TextInput 
-            style={styles.multilineInput}
-            multiline = {true}
-            numberOfLines = {4}
-            selectTextOnFocus={true}
-            onChangeText={(bio) => this.setState({bio})}
-            value={this.state.bio}
-          />
-          <View style={{flex:0.15}}></View>
-        </View>
+        <TextInput 
+          style={styles.multilineInput}
+          multiline = {true}
+          numberOfLines = {4}
+          selectTextOnFocus={true}
+          onChangeText={(bio) => this.setState({bio})}
+          value={this.state.bio}
+        />
         <TouchableHighlight style={styles.button}
         onPress={this.updateProfile.bind(this)}>
           <Text style={styles.buttonText}>
@@ -138,19 +128,21 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   input: {
-    flex:0.7,
-    height: 35,
-    marginBottom: 5,
+    borderStyle: 'solid',
+    backgroundColor: 'whitesmoke',
+    height: 25,
+    marginLeft: 25,
+    marginRight: 25,
+    marginBottom: 10,
     alignItems: 'center',
     textAlign: 'center',
-    backgroundColor: 'whitesmoke',
-    borderStyle: 'solid',
   },
   multilineInput: {
-    flex: 0.7,
     borderStyle: 'solid',
     backgroundColor: 'whitesmoke',
     height: 100,
+    marginLeft: 25,
+    marginRight: 25,
     marginBottom: 10,
     alignItems: 'center',
     textAlign: 'center',

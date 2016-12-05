@@ -121,6 +121,7 @@ export default class Signup extends Component {
         firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
           name: this.state.name,
           email: this.state.email,
+          bio:'',
         });
         this.props.navigator.push({
           component: Profile
