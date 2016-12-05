@@ -36,6 +36,14 @@ export default class Profile extends Component {
     });
     
   }
+  componentDidMount(){
+    this.state.dbref.once('value', snapshot => {
+      this.setState({name: snapshot.val().name});
+    });
+    this.state.dbref.once('value', snapshot => {
+      this.setState({bio: snapshot.val().bio});
+    });
+  }
   
   render() {
     return (

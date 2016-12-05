@@ -19,25 +19,19 @@ const firebaseconfig = {
   messagingSenderId: "1002875644736"
 };
 
-
 export default class Home extends Component {
   constructor(props) {
+    const ds = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
+    
     super(props);
-    this.itemsRef = firebase.database().ref('projects/');
+    this.projectsRef = firebase.database().ref('projects/').orderByKey();
     this.state = {
-      dbref: firebase.database().ref('users/' + firebase.auth().currentUser.uid),
-      name: '',
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      })
+      dataSource: ds.cloneWithRows(['row 1', 'row 2'])
     };
-    this.state.dbref.once('value', snapshot => {
-      this.setState({name: snapshot.val().name});
-    });
   }
   
-  componentDidMount() {
-    this.listenForItems(this.itemsRef);
+  componentWillMount() {
+    this.listenForProjects(this.projectsRef);
   }
   
   render() {
@@ -52,13 +46,17 @@ export default class Home extends Component {
         <Text style={styles.title}>
           This will be a list of stuff to look at!
         </Text>
-          {/*<ListView datasource={this.state.dataSource}
-        renderRow={this._renderItem.bind(this)}
-        style={styles.list}/>*/}
-        <Text style={styles.label}>
-          This reference returns {this.state.dataSource}
-        </Text>
-      
+        
+        <ListView 
+          dataSource={this.state.dataSource}
+          renderRow={(rowData) => 
+            <Text style={styles.label}>
+              Title: {rowData.title} 
+            </Text>}
+        />
+        
+
+        
         <Text style={styles.label}>
           Enter data to send to firebase
         </Text>
@@ -82,26 +80,25 @@ export default class Home extends Component {
     this.props.navigator.popToTop()
   }
 
-_renderItem(item){
+renderItem(project){
   return (
-    <ListItem item={item} onPress={() => this.setState({name: "buttonpresser"})}/>
+    <ListItem project={project} />
   );
 }
 
-  listenForItems(itemsRef) {
-    itemsRef.on('value', (snap) => {
-
+  listenForProjects(projectsRef) {
+    projectsRef.on('value', snap => {
       // get children as an array
-      var items = [];
+      var projects = [];
       snap.forEach((child) => {
-        items.push({
-          title: child.val().title,
+        projects.push({
+          title: "No Title",
           _key: child.key
         });
       });
 
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(items)
+        dataSource: this.state.dataSource.cloneWithRows(projects)
       });
 
     });

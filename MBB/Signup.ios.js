@@ -9,7 +9,6 @@ import {
   View
 } from 'react-native';
 
-import Home from './Home.ios.js';
 import Profile from './Profile.ios.js';
 
 import * as firebase from 'firebase';
@@ -73,16 +72,6 @@ constructor(props) {
           onChangeText={(password) => this.setState({password})}
           value={this.state.password}
         />
-        <Text style={styles.label}>
-          Confirm Password
-        </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          secureTextEntry={true}
-          onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-          value={this.state.confirmPassword}
-        />
         <TouchableHighlight style={styles.button} 
         onPress={this.onSignup.bind(this)}>
           <Text style={styles.buttonText}> 
@@ -101,7 +90,7 @@ constructor(props) {
   }
   
   onSignup(){
-    firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password).catch(function(error) {
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -118,16 +107,19 @@ constructor(props) {
         case 'auth/operation-not-allowed':
           Alert.alert('Operation Not Allowed','Email/password accounts are not enabled.');
           break;
-        default:
-          firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
-            name: this.state.name,
-            email: this.state.email,
-          });
-          this.props.navigator.push({
-            component: Home
-          });
       }
     });
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
+          name: this.state.name,
+          email: this.state.email,
+        });
+        this.props.navigator.push({
+          component: Profile
+        });
+      }
+    }.bind(this));
   }
   onBack(){
     this.props.navigator.pop()
