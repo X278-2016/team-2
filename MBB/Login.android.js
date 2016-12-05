@@ -106,12 +106,15 @@ export default class Login extends Component {
         case 'auth/wrong-password':
           Alert.alert('Wrong Password','The email and password you entered do not match.');
           break;
-        default:
-          this.props.navigator.push({
-            component: Profile
-          });
       }
     });
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        this.props.navigator.push({
+          component: Profile
+        });
+      }
+    }.bind(this));
   }
   
   onSignup(){

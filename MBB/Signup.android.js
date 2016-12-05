@@ -30,10 +30,8 @@ export default class Signup extends Component {
       this.state = {
           name: '',
           email: '',
-          confirmEmail: '',
           password: '',
-          confirmPassword: '',
-          invalid: false,
+
       };
       this.onSignup = this.onSignup.bind(this);     
   }
