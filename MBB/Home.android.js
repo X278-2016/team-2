@@ -9,8 +9,6 @@ import {
   View
 } from 'react-native';
 
-import Login from './Login.ios.js';
-
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -28,8 +26,7 @@ export default class Home extends Component {
     super(props);
     this.projectsRef = firebase.database().ref('projects/').orderByKey();
     this.state = {
-      dataSource: ds.cloneWithRows([]),
-      searchString: '',
+      dataSource: ds.cloneWithRows([])
     };
   }
   
@@ -49,17 +46,6 @@ export default class Home extends Component {
         <Text style={styles.title}>
           This will be a list of stuff to look at!
         </Text>
-        <View style={styles.searchBar}>
-          <Text style={styles.label}>
-            Search
-          </Text>
-          <TextInput 
-            style={styles.input}
-            selectTextOnFocus={true}
-            onChangeText={(searchString) => this.setState({searchString})}
-            value={this.state.searchString}
-          />
-        </View>
         
         <ListView 
           dataSource={this.state.dataSource}
@@ -68,10 +54,19 @@ export default class Home extends Component {
               Project Name: {rowData.pname} 
             </Text>
           }
-          enableEmptySections={true}
         />
         
-          
+
+        
+        <Text style={styles.label}>
+          Enter data to send to firebase
+        </Text>
+        <TextInput 
+          style={styles.input}
+          selectTextOnFocus={true}
+          onChangeText={(data) => this.setState({data})}
+          value={this.state.data}
+        />
         <TouchableHighlight style={styles.button}
         onPress={this.onLogout.bind(this)}>
           <Text style={styles.buttonText}>
@@ -83,9 +78,7 @@ export default class Home extends Component {
   }
   onLogout(){
     firebase.auth().signOut()
-    this.props.navigator.resetTo({
-      component: Login
-    });
+    this.props.navigator.popToTop()
   }
 
 renderItem(project){
@@ -126,14 +119,6 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     marginBottom: 40,
-  },
-  searchBar: {
-    flexDirection: 'row',
-    flex: 1,
-    backgroundColor: 'gray',
-  },
-  searchButton: {
-    //stuff
   },
   label: {
     textAlign: 'center',

@@ -7,7 +7,11 @@
     "test": "jest"
   },
   "dependencies": {
+<<<<<<< HEAD
     "firebase": "^3.6.1",
+=======
+    "firebase": "^3.6.2",
+>>>>>>> 4d4b3e5ad0d6145251b03667296f1353e877ae68
     "react": "15.3.2",
     "react-native": "0.37.0"
   },

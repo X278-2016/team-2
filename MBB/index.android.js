@@ -7,27 +7,71 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  Navigator,
   StyleSheet,
   Text,
   View
 } from 'react-native';
+import * as firebase from 'firebase';
+
+import Login from './Login.android.js';
+import Profile from './Profile.android.js';
+//import Signup from './Signup.ios.js';
+//import SignupSuccess from './SignupSuccess.ios.js';
+
+
+  const firebaseconfig = {
+    apiKey: "AIzaSyCukG4JK4ejGue0oPlomMXNXIMn96mvbIo",
+    authDomain: "mobile-bulletin-board.firebaseapp.com",
+    databaseURL: "https://mobile-bulletin-board.firebaseio.com",
+    storageBucket: "mobile-bulletin-board.appspot.com",
+    messagingSenderId: "1002875644736"
+  };
+
+firebase.initializeApp(firebaseconfig);
+
 
 export default class MBB extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      component: Login,
+      loaded: false
+    };
+  }
+/*
+  componentWillMount() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        this.setState({component: Profile})
+      }
+    });
+  }*/
+
+  render(){
+    //Using code snippet from https://www.sitepoint.com/authentication-in-react-native-with-firebase/
+    if(this.state.component){
+      return (
+        <Navigator
+          initialRoute={{component: this.state.component}}
+          configureScene={() => {
+            return Navigator.SceneConfigs.FloatFromRight;
+          }}
+          renderScene={(route, navigator) => {
+            if(route.component){
+              return React.createElement(route.component, { navigator });
+            }
+          }}
+        />
+      );
+    }else{
+      return (
+        <View style={styles.container}>
+        </View>
+      );
+    }
+
   }
 }
 

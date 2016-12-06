@@ -8,8 +8,7 @@ import {
   View
 } from 'react-native';
 
-import Login from './Login.ios.js';
-import Home from './Home.ios.js';
+import Home from './Home.android.js';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -26,12 +25,12 @@ export default class Profile extends Component {
       super(props);
       this.state = {
         dbref: firebase.database().ref('users/' + firebase.auth().currentUser.uid),
-        name: ' ',
-        bio: ' ',
+        name: '',
+        bio: '',
       };
-    
   }
-  componentDidMount(){
+
+  componentDidMount() {
     this.state.dbref.once('value', snapshot => {
       this.setState({name: snapshot.val().name});
     });
@@ -55,23 +54,31 @@ export default class Profile extends Component {
         <Text style={styles.label}>
           Name
         </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(name) => this.setState({name})}
-          value={this.state.name}
-        />
+        <View style = {{flexDirection: 'row'}}>
+          <View style={{flex:0.15}}></View>
+          <TextInput 
+            style={styles.input}
+            selectTextOnFocus={true}
+            onChangeText={(name) => this.setState({name})}
+            value={this.state.name}
+          />
+          <View style={{flex:0.15}}></View>
+        </View>
         <Text style={styles.label}>
           Bio
         </Text>
-        <TextInput 
-          style={styles.multilineInput}
-          multiline = {true}
-          numberOfLines = {4}
-          selectTextOnFocus={true}
-          onChangeText={(bio) => this.setState({bio})}
-          value={this.state.bio}
-        />
+        <View style = {{flexDirection: 'row'}}>
+          <View style={{flex:0.15}}></View>
+          <TextInput 
+            style={styles.multilineInput}
+            multiline = {true}
+            numberOfLines = {4}
+            selectTextOnFocus={true}
+            onChangeText={(bio) => this.setState({bio})}
+            value={this.state.bio}
+          />
+          <View style={{flex:0.15}}></View>
+        </View>
         <TouchableHighlight style={styles.button}
         onPress={this.updateProfile.bind(this)}>
           <Text style={styles.buttonText}>
@@ -94,10 +101,8 @@ export default class Profile extends Component {
     )
   }
   onLogout(){
-    this.props.navigator.resetTo({
-      component: Login
-    });
-    firebase.auth().signOut();
+    firebase.auth().signOut()
+    this.props.navigator.popToTop()
   }
   goToHub(){
     this.props.navigator.push({
@@ -133,21 +138,19 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   input: {
-    borderStyle: 'solid',
-    backgroundColor: 'whitesmoke',
-    height: 25,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
+    flex:0.7,
+    height: 35,
+    marginBottom: 5,
     alignItems: 'center',
     textAlign: 'center',
+    backgroundColor: 'whitesmoke',
+    borderStyle: 'solid',
   },
   multilineInput: {
+    flex: 0.7,
     borderStyle: 'solid',
     backgroundColor: 'whitesmoke',
     height: 100,
-    marginLeft: 25,
-    marginRight: 25,
     marginBottom: 10,
     alignItems: 'center',
     textAlign: 'center',

@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 
 
-import Home from './Home.ios.js';
-import Signup from './Signup.ios.js';
-import pwReset from './PasswordReset.ios.js';
-import Profile from './Profile.ios.js';
+import Home from './Home.android.js';
+import Signup from './Signup.android.js';
+import pwReset from './PasswordReset.android.js';
+import Profile from './Profile.android.js';
 import logo from './logo-draft1-copy3-constrained.png';
 import background from './background-gradient-final.png';
 
@@ -40,7 +40,7 @@ export default class Login extends Component {
       <Image 
         style={styles.backgroundImage}
         source = {background}>
-          <View style = {styles.layout}>
+        <View style = {styles.layout}>
           <View style = {{flexDirection: 'row'}}>
             <Image 
               style={styles.imageContainer}
