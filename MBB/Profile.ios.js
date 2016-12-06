@@ -10,6 +10,7 @@ import {
 
 import Login from './Login.ios.js';
 import Home from './Home.ios.js';
+import background from './background-gradient-final.png';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     fontSize: 28,
     fontWeight: 'bold',
     color: 'firebrick',
@@ -138,13 +139,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   instructions: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     textAlign: 'center',
     marginBottom: 5,
     color: 'firebrick',
   },
   label: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     textAlign: 'center',
     marginBottom: 5,
     color: 'firebrick',
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     color: 'firebrick',
     fontSize: 25,
     fontWeight: 'bold',

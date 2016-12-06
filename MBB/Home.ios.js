@@ -14,6 +14,7 @@ import Login from './Login.ios.js';
 import Profile from './Profile.ios.js';
 import background from './background-gradient-final.png';
 import searchButtonImage from './searchbutton.png';
+import Pitch from './Pitch.ios.js';
 
 
 import * as firebase from 'firebase';
@@ -37,6 +38,7 @@ export default class Home extends Component {
       modalVisible: false,
       mProjectName: '',
       mProjectDesc: '',
+      mProjectCats: '',
     };
   }
   
@@ -64,6 +66,9 @@ export default class Home extends Component {
             
             <Text style={styles.modalLabel}> Description: </Text>
             <Text style={styles.modalMultiLine}>  {this.state.mProjectDesc}</Text>
+            
+            <Text style={styles.modalLabel}> Categories: </Text>
+            <Text style={styles.modalMultiLine}>  {this.state.mProjectCats}</Text>
 
             <TouchableHighlight style={styles.button} onPress={() => {
               this.setModalVisible(!this.state.modalVisible)
@@ -105,7 +110,7 @@ export default class Home extends Component {
             dataSource={this.state.dataSource}
             renderRow={(rowData) =>
               <TouchableHighlight style={styles.button}
-              onPress={this.onViewProject.bind(this)}>
+              onPress={()=>this.onViewProject(rowData)}>
                 <Text style={styles.label}>
                   Project Name: {rowData.pname} 
                 </Text>
@@ -132,10 +137,13 @@ export default class Home extends Component {
     )
   }
   onSearch() {
-
+    //This is currently a no-op as it extends beyond
+    //the scope of our current project
   }
   onPitch() {
-
+    this.props.navigator.push({
+      component: Pitch
+    });
   }
   goToProfile() {
     this.props.navigator.push({
@@ -152,6 +160,7 @@ export default class Home extends Component {
     this.setState({
       mProjectName: rowData.pname,
       mProjectDesc: rowData.pinfo.description,
+      mProjectCats: rowData.pinfo.categories,
     });
     this.setModalVisible(true);
   }
@@ -185,7 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'powderblue',
   },
   title: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     fontSize: 28,
     fontWeight: 'bold',
     color: 'firebrick',
@@ -193,13 +202,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   instructions: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     textAlign: 'center',
     marginBottom: 5,
     color: 'firebrick',
   },
   label: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     textAlign: 'center',
     marginBottom: 5,
     color: 'firebrick',
@@ -222,7 +231,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     color: 'firebrick',
     fontSize: 25,
     fontWeight: 'bold',
@@ -291,7 +300,7 @@ const styles = StyleSheet.create({
   searchLabel: {
     flex: 0.15,
     height: 35,
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     textAlign: 'center',
     marginLeft: 5,
     marginRight: 5,
@@ -333,7 +342,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'whitesmoke',
     fontFamily: 'AvenirNext-UltraLight',
     fontSize: 12,
-    height: 110,
+    width: 250,
     marginBottom: 10,
     alignItems: 'center',
     textAlign: 'center',
