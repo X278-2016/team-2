@@ -93,6 +93,9 @@ export default class Signup extends Component {
           <TouchableHighlight style={styles.button} onPress={this.onSignup.bind(this)}>
             <Text style={styles.buttonText}> Submit </Text>
           </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={this.onBack.bind(this)}>
+            <Text style={styles.buttonText}> Go Back </Text>
+          </TouchableHighlight>
             {/*<Image source={pic} style={{width: 200, height: 200}}/> */}
         </View>
       </Image>

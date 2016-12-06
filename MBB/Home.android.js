@@ -9,6 +9,9 @@ import {
   View
 } from 'react-native';
 
+import Login from './Login.android.js';
+import background from './background-gradient-final.png';
+
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -26,7 +29,8 @@ export default class Home extends Component {
     super(props);
     this.projectsRef = firebase.database().ref('projects/').orderByKey();
     this.state = {
-      dataSource: ds.cloneWithRows([])
+      dataSource: ds.cloneWithRows([]),
+      searchString: '',
     };
   }
   
@@ -36,49 +40,74 @@ export default class Home extends Component {
   
   render() {
     return (
-      <View style={styles.layout}>
-        <TouchableHighlight style={styles.pitchButton}
-        onPress={this.onLogout.bind(this)}>
-          <Text style={styles.pitchButtonText}>
-            Pitch!
-          </Text>
-        </TouchableHighlight>
-        <Text style={styles.title}>
-          This will be a list of stuff to look at!
-        </Text>
-        
-        <ListView 
-          dataSource={this.state.dataSource}
-          renderRow={(rowData) => 
-            <Text style={styles.label}>
-              Project Name: {rowData.pname} 
+      <Image 
+        style={styles.backgroundImage}
+        source = {background}>
+        <View style={styles.layout}>
+          <TouchableHighlight style={styles.pitchButton}
+            onPress={this.onPitch.bind(this)}>
+            <Text style={styles.pitchButtonText}>
+              Pitch!
             </Text>
-          }
-        />
-        
-
-        
-        <Text style={styles.label}>
-          Enter data to send to firebase
-        </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(data) => this.setState({data})}
-          value={this.state.data}
-        />
-        <TouchableHighlight style={styles.button}
-        onPress={this.onLogout.bind(this)}>
-          <Text style={styles.buttonText}>
-            Logout
-          </Text>
-        </TouchableHighlight>
-      </View>
+          </TouchableHighlight>
+          <View style={styles.searchBar}>
+            <Text style={styles.label}>
+              Search
+            </Text>
+            <TextInput 
+              style={styles.input}
+              selectTextOnFocus={true}
+              onChangeText={(searchString) => this.setState({searchString})}
+              value={this.state.searchString}
+            />
+          </View>
+            
+          {/*this one works
+          <ListView 
+            dataSource={this.state.dataSource}
+            renderRow={(rowData) => 
+              <Text style={styles.label}>
+                Project Name: {rowData.pname} 
+              </Text>
+            }
+            enableEmptySections={true}
+          />  */}
+          
+          
+          <ListView 
+            dataSource={this.state.dataSource}
+            renderRow={(rowData) =>
+              <TouchableHighlight style={styles.button}
+              onPress={this.onViewProject.bind(this)}>
+                <Text style={styles.label}>
+                  Project Name: {rowData.pname} 
+                </Text>
+              </TouchableHighlight>
+            }
+            enableEmptySections={true}>
+            </ListView>
+            
+          <TouchableHighlight style={styles.button}
+          onPress={this.onLogout.bind(this)}>
+            <Text style={styles.buttonText}>
+              Logout
+            </Text>
+          </TouchableHighlight>
+        </View>
+      </Image>
     )
+  }
+  onPitch() {
+
   }
   onLogout(){
     firebase.auth().signOut()
-    this.props.navigator.popToTop()
+    this.props.navigator.resetTo({
+      component: Login
+    });
+  }
+  onViewProject(){
+    
   }
 
 renderItem(project){
@@ -93,7 +122,7 @@ renderItem(project){
       var projects = [];
       snap.forEach((child) => {
         projects.push({
-          title: child.val(),
+          pinfo: child.val(),
           pname: child.key
         });
       });
@@ -108,61 +137,98 @@ renderItem(project){
 
 const styles = StyleSheet.create({
   layout: {
-    flex: 1, 
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'darkblue',
   },
   title: {
-    fontSize: 40,
+    fontFamily: 'sans-serif',
+    fontSize: 28,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'firebrick',
     textAlign: 'center',
-    marginBottom: 40,
-  },
-  label: {
-    textAlign: 'center',
-    color: 'white',
     marginBottom: 5,
   },
+  instructions: {
+    fontFamily: 'sans-serif',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
+  },
+  label: {
+    fontFamily: 'sans-serif',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
+  },
   input: {
-    borderStyle: 'solid',
-    backgroundColor: 'whitesmoke',
-    height: 25,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
+    flex:0.7,
+    height: 35,
+    marginBottom: 5,
     alignItems: 'center',
     textAlign: 'center',
+    backgroundColor: 'whitesmoke',
+    borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
   },
   button: {
-    borderStyle: 'solid',
-    borderColor: 'darkblue',
-    backgroundColor: 'red',
-    height: 50,
-    width: 250,
-    marginBottom: 20,
+    marginTop: 5,
+    marginBottom: 5,
+    height: 35,
+    width: 200,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
-    fontSize: 20,
+    fontFamily: 'sans-serif',
+    color: 'firebrick',
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },  
+  multilineInput: {
+    flex: 0.7,
+    borderStyle: 'solid',
+    backgroundColor: 'whitesmoke',
+    height: 110,
+    marginBottom: 10,
+    alignItems: 'center',
+    textAlign: 'center',
+    borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
+  },
+  imageContainer: {
+    flexShrink: 1,
+    height: 180,
+    //alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  pitchButtonText: {
+    color: 'firebrick',
+    fontSize: 60,
     fontWeight: 'bold',
   },
   pitchButton: {
-    borderStyle: 'solid',
-    borderColor: 'darkblue',
-    backgroundColor: 'red',
     height: 75,
     width: 350,
     marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pitchButtonText: {
-    color: 'white',
-    fontSize: 60,
-    fontWeight: 'bold',
+  searchBar: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  searchButton: {
+    //stuff
   },
 });

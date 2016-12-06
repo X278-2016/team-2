@@ -41,7 +41,7 @@ export default class MBB extends Component {
     };
   }
 /*
-  componentWillMount() {
+  componentDidMount() {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         this.setState({component: Profile})
