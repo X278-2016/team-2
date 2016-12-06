@@ -23,9 +23,6 @@ const firebaseconfig = {
   messagingSenderId: "1002875644736"
 };
 
-//firebase.initializeApp(firebaseconfig);
-
-
 export default class Signup extends Component {
   constructor(props) {
       super(props);
@@ -205,79 +202,3 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
 });
-
-// const styles = StyleSheet.create({
-//   layout: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   title: {
-//     fontFamily: 'sans-serif',
-//     fontSize: 28,
-//     fontWeight: 'bold',
-//     color: 'firebrick',
-//     textAlign: 'center',
-//     marginBottom: 5,
-//   },
-//   label: {
-//     fontFamily: 'sans-serif',
-//     textAlign: 'center',
-//     marginBottom: 5,
-//     color: 'firebrick',
-//   },
-//   input: {
-//     flex:0.7,
-//     height: 35,
-//     marginBottom: 5,
-//     alignItems: 'center',
-//     textAlign: 'center',
-//     backgroundColor: 'whitesmoke',
-//     borderStyle: 'solid',
-//     borderColor: '#87cefa',
-//     borderWidth: 1,
-//   },
-//   loginButton: {
-//     height: 40,
-//     width: 250,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   loginText: {
-//     fontFamily: 'sans-serif',
-//     color: 'firebrick',
-//     fontSize: 28,
-//     fontWeight: 'bold',
-//     textAlign: 'center',
-//   },
-//   helpButton: {
-//     height: 30,
-//     width: 200,
-//     alignItems: 'center',
-//     marginBottom: 5,
-//     marginTop: 5,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-
-//   },
-//   helpText: {
-//     fontFamily: 'sans-serif',
-//     color: 'midnightblue',
-//     fontSize: 15,
-//     textDecorationLine: 'underline',
-//     textAlign: 'center',
-//   },
-//   imageContainer: {
-//     flexShrink: 1,
-//     height: 180,
-//     //alignSelf: 'center',
-//     justifyContent: 'center',
-//   },
-//   backgroundImage: {
-//     flex: 1,
-//     width: null,
-//     height: null,
-//     alignItems:'center',
-//     justifyContent:'center',
-//   }
-// });
