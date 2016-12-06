@@ -21,7 +21,7 @@ const firebaseconfig = {
 };
 
 
-export default class Profile extends Component {
+export default class ViewProject extends Component {
   constructor(props) {
       super(props);
       this.state = {

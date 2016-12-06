@@ -27,31 +27,21 @@ export default class MBB extends Component {
   constructor(props){
     super(props);
     this.state = {
+      component: Login,
       loaded: false
     };
   }
-
+/*Ideally this would check if a user is already logged in
+  and take them directly to the homepage if they are already
+  authenticated. However, this causes very odd behavior in the 
+  lifecyle when it tries to load the firebase data, which
+  cannot be handled at this time*/
   render(){
     //Using code snippet from https://www.sitepoint.com/authentication-in-react-native-with-firebase/
-    if(firebase.auth().currentUser){
+    if(this.state.component){
       return (
         <Navigator
-          initialRoute={{component: Profile}}
-          configureScene={() => {
-            return Navigator.SceneConfigs.FloatFromRight;
-          }}
-          renderScene={(route, navigator) => {
-            if(route.component){
-              return React.createElement(route.component, { navigator });
-            }
-          }}
-        />
-      );
-    }
-    else{
-      return (
-        <Navigator
-          initialRoute={{component: Login}}
+          initialRoute={{component: this.state.component}}
           configureScene={() => {
             return Navigator.SceneConfigs.FloatFromRight;
           }}

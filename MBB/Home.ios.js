@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Image,
   ListView,
+  Modal,
   StyleSheet,
   Text,
   TextInput,
@@ -30,6 +31,9 @@ export default class Home extends Component {
     this.state = {
       dataSource: ds.cloneWithRows([]),
       searchString: '',
+      modalVisible: false,
+      mProjectName: '',
+      mProjectDesc: '',
     };
   }
   
@@ -40,15 +44,32 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.layout}>
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+         <View style={{marginTop: 22}}>
+          <View>
+            <Text>Project Name: {this.state.mProjectName}</Text>
+            <Text>Description: {this.state.mProjectDesc}</Text>
+
+            <TouchableHighlight onPress={() => {
+              this.setModalVisible(!this.state.modalVisible)
+            }}>
+              <Text>Hide Modal</Text>
+            </TouchableHighlight>
+
+          </View>
+         </View>
+        </Modal>
         <TouchableHighlight style={styles.pitchButton}
         onPress={this.onLogout.bind(this)}>
           <Text style={styles.pitchButtonText}>
             Pitch!
           </Text>
         </TouchableHighlight>
-        <Text style={styles.title}>
-          This will be a list of stuff to look at!
-        </Text>
         <View style={styles.searchBar}>
           <Text style={styles.label}>
             Search
@@ -77,7 +98,7 @@ export default class Home extends Component {
           dataSource={this.state.dataSource}
           renderRow={(rowData) =>
           <TouchableHighlight style={styles.button}
-          onPress={this.onViewProject.bind(this)}>
+          onPress={()=>this.onViewProject(rowData)}>
             <Text style={styles.label}>
               Project Name: {rowData.pname} 
             </Text>
@@ -101,8 +122,15 @@ export default class Home extends Component {
       component: Login
     });
   }
-  onViewProject(){
-    
+  onViewProject(rowData){
+    this.setState({
+      mProjectName: rowData.pname,
+      mProjectDesc: rowData.pinfo.description,
+    });
+    this.setModalVisible(true);
+  }
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
 renderItem(project){
