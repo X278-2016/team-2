@@ -55,7 +55,7 @@ export default class passwordReset extends Component {
     });
     //Shouldn't need to log the user out
     //Unless we allow them to reset password from the profile page
-    this.props.navigator.popToTop();
+    this.props.navigator.pop();
   }
 }
 

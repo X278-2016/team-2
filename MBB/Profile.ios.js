@@ -25,15 +25,9 @@ export default class Profile extends Component {
       super(props);
       this.state = {
         dbref: firebase.database().ref('users/' + firebase.auth().currentUser.uid),
-        name: '',
-        bio: '',
+        name: ' ',
+        bio: ' ',
       };
-    this.state.dbref.once('value', snapshot => {
-      this.setState({name: snapshot.val().name});
-    });
-    this.state.dbref.once('value', snapshot => {
-      this.setState({bio: snapshot.val().bio});
-    });
     
   }
   componentDidMount(){
@@ -99,8 +93,8 @@ export default class Profile extends Component {
     )
   }
   onLogout(){
-    firebase.auth().signOut()
-    this.props.navigator.popToTop()
+    this.props.navigator.pop();
+    firebase.auth().signOut();
   }
   goToHub(){
     this.props.navigator.push({

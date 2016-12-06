@@ -26,7 +26,7 @@ export default class Home extends Component {
     super(props);
     this.projectsRef = firebase.database().ref('projects/').orderByKey();
     this.state = {
-      dataSource: ds.cloneWithRows(['row 1', 'row 2'])
+      dataSource: ds.cloneWithRows([])
     };
   }
   
@@ -51,8 +51,9 @@ export default class Home extends Component {
           dataSource={this.state.dataSource}
           renderRow={(rowData) => 
             <Text style={styles.label}>
-              Title: {rowData.title} 
-            </Text>}
+              Project Name: {rowData.pname} 
+            </Text>
+          }
         />
         
 
@@ -92,8 +93,8 @@ renderItem(project){
       var projects = [];
       snap.forEach((child) => {
         projects.push({
-          title: "No Title",
-          _key: child.key
+          title: child.val(),
+          pname: child.key
         });
       });
 
