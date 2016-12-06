@@ -125,7 +125,7 @@ export default class Login extends Component {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         this.props.navigator.push({
-          component: Profile
+          component: Home
         });
       }
     }.bind(this));

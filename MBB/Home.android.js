@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 
 import Login from './Login.android.js';
+import Profile from './Profile.android.js';
 import background from './background-gradient-final.png';
-
+import searchButtonImage from './searchbutton.png';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -30,7 +31,7 @@ export default class Home extends Component {
     this.projectsRef = firebase.database().ref('projects/').orderByKey();
     this.state = {
       dataSource: ds.cloneWithRows([]),
-      searchString: '',
+      searchString: 'Search',
     };
   }
   
@@ -50,30 +51,27 @@ export default class Home extends Component {
               Pitch!
             </Text>
           </TouchableHighlight>
-          <View style={styles.searchBar}>
-            <Text style={styles.label}>
-              Search
-            </Text>
-            <TextInput 
-              style={styles.input}
-              selectTextOnFocus={true}
-              onChangeText={(searchString) => this.setState({searchString})}
-              value={this.state.searchString}
-            />
+          <View style={styles.searchContainer}>
+            <View style={{flex:0.1}}></View>
+            <View style={styles.searchBar}>
+              <TextInput 
+                style={styles.input}
+                selectTextOnFocus={true}
+                onChangeText={(searchString) => this.setState({searchString})}
+                value={this.state.searchString}
+              />
+            </View>
+            <TouchableHighlight style= {styles.searchButton}
+              onPress = {this.onSearch.bind(this)}>
+              <Image
+                resizeMode={Image.resizeMode.contain}
+                style={styles.searchButtonImage}
+                source={searchButtonImage}>
+              </Image>
+            </TouchableHighlight>
+            <View style={{flex:0.1}}></View>
           </View>
-            
-          {/*this one works
-          <ListView 
-            dataSource={this.state.dataSource}
-            renderRow={(rowData) => 
-              <Text style={styles.label}>
-                Project Name: {rowData.pname} 
-              </Text>
-            }
-            enableEmptySections={true}
-          />  */}
-          
-          
+
           <ListView 
             dataSource={this.state.dataSource}
             renderRow={(rowData) =>
@@ -84,21 +82,36 @@ export default class Home extends Component {
                 </Text>
               </TouchableHighlight>
             }
-            enableEmptySections={true}>
-            </ListView>
-            
-          <TouchableHighlight style={styles.button}
-          onPress={this.onLogout.bind(this)}>
-            <Text style={styles.buttonText}>
-              Logout
-            </Text>
-          </TouchableHighlight>
+            enableEmptySections={true}
+          />
+          <View style={styles.bottomBar}>
+            <TouchableHighlight style={styles.navButton}
+              onPress={this.goToProfile.bind(this)}>
+              <Text style={styles.buttonText}>
+                Profile
+              </Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.navButton}
+              onPress={this.onLogout.bind(this)}>
+              <Text style={styles.buttonText}>
+                Logout
+              </Text>
+            </TouchableHighlight>
+          </View>
         </View>
       </Image>
     )
   }
+  onSearch() {
+
+  }
   onPitch() {
 
+  }
+  goToProfile() {
+    this.props.navigator.push({
+      component: Profile
+    });
   }
   onLogout(){
     firebase.auth().signOut()
@@ -140,6 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'powderblue',
   },
   title: {
     fontFamily: 'sans-serif',
@@ -162,9 +176,7 @@ const styles = StyleSheet.create({
     color: 'firebrick',
   },
   input: {
-    flex:0.7,
     height: 35,
-    marginBottom: 5,
     alignItems: 'center',
     textAlign: 'center',
     backgroundColor: 'whitesmoke',
@@ -225,10 +237,45 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   searchBar: {
-    flexDirection: 'row',
-    flex: 1,
+    flex: 0.7,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    height: 35,
   },
   searchButton: {
-    //stuff
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  searchButtonImage: {
+    flexShrink: 1,
+    width: 35,
+    height: 35,
+    justifyContent: 'center'
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    height: 35,
+  },
+  searchLabel: {
+    flex: 0.15,
+    height: 35,
+    fontFamily: 'sans-serif',
+    textAlign: 'center',
+    marginLeft: 5,
+    marginRight: 5,
+    color: 'firebrick',
+  },
+  navButton: {
+    flex: 0.5,
+    alignItems: 'center',
+  },
+  bottomBar: {
+    flexDirection: 'row', 
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    marginBottom: 10,
   },
 });
