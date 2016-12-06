@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import Home from './Home.android.js';
+import background from './background-gradient-final.png';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -161,15 +162,15 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 5,
-    height: 50,
-    width: 150,
+    height: 40,
+    width: 200,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
     fontFamily: 'sans-serif',
     color: 'firebrick',
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center',
   },  
@@ -177,10 +178,13 @@ const styles = StyleSheet.create({
     flex: 0.7,
     borderStyle: 'solid',
     backgroundColor: 'whitesmoke',
-    height: 100,
+    height: 110,
     marginBottom: 10,
     alignItems: 'center',
     textAlign: 'center',
+    borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
   },
   imageContainer: {
     flexShrink: 1,

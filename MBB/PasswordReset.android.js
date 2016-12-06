@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import confirmReset from './ConfirmReset.android.js';
+import background from './background-gradient-final.png';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -26,23 +26,31 @@ export default class passwordReset extends Component {
   }
   render() {
     return (
-      <View style={styles.layout}>
-        <Text style={styles.title}>
-          Password Reset
-        </Text>
-        <Text style={styles.label}>
-          Email
-        </Text>
-        <TextInput
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.email}
-        />  
-        <TouchableHighlight style={styles.button} onPress={this.sendResetEmail.bind(this)}>
-          <Text style={styles.buttonText}>Send Reset Email</Text>
-        </TouchableHighlight>
-      </View>
+      <Image 
+        style={styles.backgroundImage}
+        source = {background}>
+        <View style={styles.layout}>
+          <Text style={styles.title}>
+            Password Reset
+          </Text>
+          <Text style={styles.label}>
+            Email
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput
+              style={styles.input}
+              selectTextOnFocus={true}
+              onChangeText={(email) => this.setState({email})}
+              value={this.state.email}
+            />  
+            <View style={{flex:0.15}}></View>
+          </View>
+          <TouchableHighlight style={styles.button} onPress={this.sendResetEmail.bind(this)}>
+            <Text style={styles.buttonText}>Send Reset Email</Text>
+          </TouchableHighlight>
+        </View>
+      </Image>
     )
   }
   sendResetEmail(){
@@ -64,43 +72,63 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'darkblue',
   },
   title: {
-    fontSize: 40,
+    fontFamily: 'sans-serif',
+    fontSize: 28,
     fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 40,
-  },
-  label: {
+    color: 'firebrick',
     textAlign: 'center',
     marginBottom: 5,
-    color: 'white',
+  },
+  instructions: {
+    fontFamily: 'sans-serif',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
+  },
+  label: {
+    fontFamily: 'sans-serif',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
   },
   input: {
-    borderStyle: 'solid',
-    backgroundColor: 'whitesmoke',
-    height: 25,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
+    flex:0.7,
+    height: 35,
+    marginBottom: 5,
     alignItems: 'center',
     textAlign: 'center',
+    backgroundColor: 'whitesmoke',
+    borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
   },
   button: {
-    borderStyle: 'solid',
-    borderColor: 'darkblue',
-    backgroundColor: 'red',
+    marginTop: 5,
     height: 50,
-    width: 250,
-    marginBottom: 50,
+    width: 150,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
-    fontSize: 20,
+    fontFamily: 'sans-serif',
+    color: 'firebrick',
+    fontSize: 28,
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  imageContainer: {
+    flexShrink: 1,
+    height: 180,
+    //alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    alignItems:'center',
+    justifyContent:'center',
   },
 });
