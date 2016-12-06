@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import {
+  Alert,
+  Image,
   StyleSheet,
   Text,
   TextInput,
   TouchableHighlight,
   View
 } from 'react-native';
-import confirmReset from './ConfirmReset.ios.js';
+import background from './background-gradient-final.png';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -26,23 +28,34 @@ export default class passwordReset extends Component {
   }
   render() {
     return (
-      <View style={styles.layout}>
-        <Text style={styles.title}>
-          Password Reset
-        </Text>
-        <Text style={styles.label}>
-          Email
-        </Text>
-        <TextInput
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.email}
-        />  
-        <TouchableHighlight style={styles.button} onPress={this.sendResetEmail.bind(this)}>
-          <Text style={styles.buttonText}>Send Reset Email</Text>
-        </TouchableHighlight>
-      </View>
+      <Image 
+        style={styles.backgroundImage}
+        source = {background}>
+        <View style={styles.layout}>
+          <Text style={styles.title}>
+            Password Reset
+          </Text>
+          <Text style={styles.label}>
+            Email
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput
+              style={styles.input}
+              selectTextOnFocus={true}
+              onChangeText={(email) => this.setState({email})}
+              value={this.state.email}
+            />  
+            <View style={{flex:0.15}}></View>
+          </View>
+          <TouchableHighlight style={styles.button} onPress={this.sendResetEmail.bind(this)}>
+            <Text style={styles.buttonText}>Send Reset Email</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={this.onBack.bind(this)}>
+            <Text style={styles.buttonText}>Go Back</Text>
+          </TouchableHighlight>
+        </View>
+      </Image>
     )
   }
   sendResetEmail(){
@@ -53,9 +66,13 @@ export default class passwordReset extends Component {
       var errorMessage = error.message;
       // Handle errors here
     });
+    Alert.alert("Email Sent", "Reset email sent to " + this.state.email);
     //Shouldn't need to log the user out
     //Unless we allow them to reset password from the profile page
-    this.props.navigator.pop();
+    this.props.navigator.popToTop();
+  }
+  onBack(){
+    this.props.navigator.pop()
   }
 }
 
@@ -64,43 +81,63 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'darkblue',
   },
   title: {
-    fontSize: 40,
+    fontFamily: 'AvenirNext-UltraLight',
+    fontSize: 28,
     fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 40,
-  },
-  label: {
+    color: 'firebrick',
     textAlign: 'center',
     marginBottom: 5,
-    color: 'white',
+  },
+  instructions: {
+    fontFamily: 'AvenirNext-UltraLight',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
+  },
+  label: {
+    fontFamily: 'AvenirNext-UltraLight',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
   },
   input: {
-    borderStyle: 'solid',
-    backgroundColor: 'whitesmoke',
-    height: 25,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
+    flex:0.7,
+    height: 35,
+    marginBottom: 15,
     alignItems: 'center',
     textAlign: 'center',
+    backgroundColor: 'whitesmoke',
+    borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
   },
   button: {
-    borderStyle: 'solid',
-    borderColor: 'darkblue',
-    backgroundColor: 'red',
-    height: 50,
-    width: 250,
-    marginBottom: 50,
+    marginTop: 5,
+    height: 65,
+    width: 225,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
-    fontSize: 20,
+    fontFamily: 'AvenirNext-UltraLight',
+    color: 'firebrick',
+    fontSize: 28,
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  imageContainer: {
+    flexShrink: 1,
+    height: 180,
+    //alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    alignItems:'center',
+    justifyContent:'center',
   },
 });
