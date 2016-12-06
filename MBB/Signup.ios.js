@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import {
-  Alert,
   Image,
   StyleSheet,
   Text,
   TextInput,
   TouchableHighlight,
+  Alert,
   View
 } from 'react-native';
 
 import Profile from './Profile.ios.js';
+import background from './background-gradient-final.png';
+
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -20,72 +22,82 @@ const firebaseconfig = {
   messagingSenderId: "1002875644736"
 };
 
-
 export default class Signup extends Component {
-constructor(props) {
+  constructor(props) {
       super(props);
       this.state = {
           name: '',
           email: '',
           password: '',
-          confirmPassword: '',
-          invalid: false,
+
       };
+      this.onSignup = this.onSignup.bind(this);     
   }
+
   render() {
     let pic = {
       uri: 'https://image.freepik.com/free-icon/thumbs-up_318-31579.jpg'
     };
     return (
-      <View style={styles.layout}>
-        <Text style={styles.title}>
-          Sign up below!
-        </Text>
-      <Text style={styles.instructions}>
-          All fields are required
-        </Text>
-        <Text style={styles.label}>
-          Name
-        </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(name) => this.setState({name})}
-          value={this.state.name}
-        />
-        <Text style={styles.label}>
-          Email
-        </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.email}
-        />
-        <Text style={styles.label}>
-          Password
-        </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          secureTextEntry={true}
-          onChangeText={(password) => this.setState({password})}
-          value={this.state.password}
-        />
-        <TouchableHighlight style={styles.button} 
-        onPress={this.onSignup.bind(this)}>
-          <Text style={styles.buttonText}> 
-            Submit 
+      <Image 
+        style={styles.backgroundImage}
+        source = {background}>
+        <View style={styles.layout}>
+          <Text style={styles.title}>
+            Sign up below!
           </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button} 
-        onPress={this.onBack.bind(this)}>
-          <Text style={styles.buttonText}> 
-            Go Back 
+          <Text style={styles.instructions}>
+            Please fill out each of the following fields
           </Text>
-        </TouchableHighlight>
-          {/*<Image source={pic} style={{width: 200, height: 200}}/> */}
-      </View>
+          <Text style={styles.label}>
+            Name
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+              <View style={{flex:0.15}}></View>
+              <TextInput
+                style={styles.input}
+                selectTextOnFocus={true}
+                onChangeText={(name) => this.setState({name})}
+                value={this.state.name}
+              />
+              <View style={{flex:0.15}}></View>
+          </View>
+          <Text style={styles.label}>
+            Email
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+              <View style={{flex:0.15}}></View>
+              <TextInput
+                style={styles.input}
+                selectTextOnFocus={true}
+                onChangeText={(email) => this.setState({email})}
+                value={this.state.email}
+              />
+              <View style={{flex:0.15}}></View>
+          </View>
+          <Text style={styles.label}>
+            Password
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+              <View style={{flex:0.15}}></View>
+              <TextInput
+                style={styles.input}
+                selectTextOnFocus={true}
+                secureTextEntry={true}
+                onChangeText={(password) => this.setState({password})}
+                value={this.state.password}
+              />
+              <View style={{flex:0.15}}></View>
+          </View>
+          <TouchableHighlight style={styles.button} onPress={this.onSignup.bind(this)}>
+            <Text style={styles.buttonText}> Submit </Text>
+          </TouchableHighlight>
+            
+          <TouchableHighlight style={styles.button} onPress={this.onBack.bind(this)}>
+            <Text style={styles.buttonText}> Go Back </Text>
+          </TouchableHighlight>
+        </View>
+      </Image>
     );
   }
   
@@ -114,6 +126,7 @@ constructor(props) {
         firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
           name: this.state.name,
           email: this.state.email,
+          bio:'',
         });
         this.props.navigator.push({
           component: Profile
@@ -129,50 +142,65 @@ constructor(props) {
 const styles = StyleSheet.create({
   layout: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'darkblue',
   },
   title: {
-    fontSize: 30,
-    textAlign: 'center',
-    margin: 40,
-    color: 'white',
+    fontFamily: 'AvenirNext-UltraLight',
+    fontSize: 28,
     fontWeight: 'bold',
-  },
-  instructions: {
+    color: 'firebrick',
     textAlign: 'center',
-    marginBottom: 25,
-    color: 'white',
-  },
-  label: {
-    textAlign: 'center',
-    color: 'white',
     marginBottom: 5,
   },
+  instructions: {
+    fontFamily: 'AvenirNext-UltraLight',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
+  },
+  label: {
+    fontFamily: 'AvenirNext-UltraLight',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
+  },
   input: {
-    borderStyle: 'solid',
-    backgroundColor: 'whitesmoke',
-    height: 25,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
+    flex:0.7,
+    height: 35,
+    marginBottom: 5,
     alignItems: 'center',
     textAlign: 'center',
+    backgroundColor: 'whitesmoke',
+    borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
   },
   button: {
-    borderStyle: 'solid',
-    borderColor: 'darkblue',
-    backgroundColor: 'red',
+    marginTop: 5,
     height: 50,
     width: 150,
-    marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
-    fontSize: 30,
+    fontFamily: 'AvenirNext-UltraLight',
+    color: 'firebrick',
+    fontSize: 28,
     fontWeight: 'bold',
-  }
+    textAlign: 'center',
+  },
+  imageContainer: {
+    flexShrink: 1,
+    height: 180,
+    //alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    alignItems:'center',
+    justifyContent:'center',
+  },
 });

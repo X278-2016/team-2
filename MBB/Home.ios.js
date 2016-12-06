@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import Login from './Login.ios.js';
+import Profile from './Profile.ios.js';
 
 
 import * as firebase from 'firebase';
@@ -45,20 +46,24 @@ export default class Home extends Component {
     return (
       <View style={styles.layout}>
         <Modal
-          animationType={"slide"}
+          animationType={"none"}
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => {alert("Modal has been closed.")}}
           >
-         <View style={{marginTop: 22}}>
+         <View style={styles.modalLayout}>
           <View>
-            <Text>Project Name: {this.state.mProjectName}</Text>
-            <Text>Description: {this.state.mProjectDesc}</Text>
+            <Text style={styles.modalLabel}>Project Name: </Text>
+            <Text style={styles.modalSingleLine}> {this.state.mProjectName} </Text>
+            
+            
+            <Text style={styles.modalLabel}> Description: </Text>
+            <Text style={styles.modalMultiLine}>  {this.state.mProjectDesc}</Text>
 
-            <TouchableHighlight onPress={() => {
+            <TouchableHighlight style={styles.button} onPress={() => {
               this.setModalVisible(!this.state.modalVisible)
             }}>
-              <Text>Hide Modal</Text>
+              <Text style={styles.buttonText}>Back</Text>
             </TouchableHighlight>
 
           </View>
@@ -132,13 +137,6 @@ export default class Home extends Component {
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
-
-renderItem(project){
-  return (
-    <ListItem project={project} />
-  );
-}
-
   listenForProjects(projectsRef) {
     projectsRef.on('value', snap => {
       // get children as an array
@@ -154,6 +152,11 @@ renderItem(project){
         dataSource: this.state.dataSource.cloneWithRows(projects)
       });
 
+    });
+  }
+  goToProfile(){
+    this.props.navigator.push({
+      component: Profile
     });
   }
 }
@@ -224,5 +227,39 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 60,
     fontWeight: 'bold',
+  },
+  modalLayout: {
+    backgroundColor: 'whitesmoke',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 25,
+  },
+  modalLabel: {
+    fontFamily: 'AvenirNext-UltraLight',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
+  },
+  modalSingleLine: {
+    fontFamily: 'AvenirNext-UltraLight',
+    fontSize: 12,
+    textAlign: 'center',
+    marginBottom: 10,
+    color: 'black'
+  },
+  modalMultiLine: {
+    flex: 0.7,
+    borderStyle: 'solid',
+    backgroundColor: 'whitesmoke',
+    fontFamily: 'AvenirNext-UltraLight',
+    fontSize: 12,
+    height: 110,
+    marginBottom: 10,
+    alignItems: 'center',
+    textAlign: 'center',
+    borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
   },
 });

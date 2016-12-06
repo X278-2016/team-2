@@ -26,12 +26,12 @@ export default class Profile extends Component {
       super(props);
       this.state = {
         dbref: firebase.database().ref('users/' + firebase.auth().currentUser.uid),
-        name: ' ',
-        bio: ' ',
+        name: '',
+        bio: '',
       };
-    
   }
-  componentDidMount(){
+
+  componentDidMount() {
     this.state.dbref.once('value', snapshot => {
       this.setState({name: snapshot.val().name});
     });
@@ -42,62 +42,72 @@ export default class Profile extends Component {
   
   render() {
     return (
-      <View style={styles.layout}>
-        <Text style={styles.title}>
-          Your Profile
-        </Text>
-        <Text style={styles.label}>
-          Email
-        </Text>
-        <Text style={styles.label}>
-          {firebase.auth().currentUser.email}
-        </Text>
-        <Text style={styles.label}>
-          Name
-        </Text>
-        <TextInput 
-          style={styles.input}
-          selectTextOnFocus={true}
-          onChangeText={(name) => this.setState({name})}
-          value={this.state.name}
-        />
-        <Text style={styles.label}>
-          Bio
-        </Text>
-        <TextInput 
-          style={styles.multilineInput}
-          multiline = {true}
-          numberOfLines = {4}
-          selectTextOnFocus={true}
-          onChangeText={(bio) => this.setState({bio})}
-          value={this.state.bio}
-        />
-        <TouchableHighlight style={styles.button}
-        onPress={this.updateProfile.bind(this)}>
-          <Text style={styles.buttonText}>
-            Update Profile
+      <Image 
+        style={styles.backgroundImage}
+        source = {background}>
+        <View style={styles.layout}>
+          <Text style={styles.title}>
+            Your Profile
           </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button}
-        onPress={this.goToHub.bind(this)}>
-          <Text style={styles.buttonText}>
-            Go to Hub
+          <Text style={styles.label}>
+            Email
           </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button}
-        onPress={this.onLogout.bind(this)}>
-          <Text style={styles.buttonText}>
-            Logout
+          <Text style={styles.label}>
+            {firebase.auth().currentUser.email}
           </Text>
-        </TouchableHighlight>
-      </View>
+          <Text style={styles.label}>
+            Name
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput 
+              style={styles.input}
+              selectTextOnFocus={true}
+              onChangeText={(name) => this.setState({name})}
+              value={this.state.name}
+            />
+            <View style={{flex:0.15}}></View>
+          </View>
+          <Text style={styles.label}>
+            Bio
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TextInput 
+              style={styles.multilineInput}
+              multiline = {true}
+              numberOfLines = {4}
+              selectTextOnFocus={true}
+              onChangeText={(bio) => this.setState({bio})}
+              value={this.state.bio}
+            />
+            <View style={{flex:0.15}}></View>
+          </View>
+          <TouchableHighlight style={styles.button}
+          onPress={this.updateProfile.bind(this)}>
+            <Text style={styles.buttonText}>
+              Update Profile
+            </Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button}
+          onPress={this.goToHub.bind(this)}>
+            <Text style={styles.buttonText}>
+              Go to Hub
+            </Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button}
+          onPress={this.onLogout.bind(this)}>
+            <Text style={styles.buttonText}>
+              Logout
+            </Text>
+          </TouchableHighlight>
+        </View>
+      </Image>
     )
   }
   onLogout(){
-    this.props.navigator.resetTo({
-      component: Login
-    });
-    firebase.auth().signOut();
+    firebase.auth().signOut()
+    this.props.navigator.popToTop()
   }
   goToHub(){
     this.props.navigator.push({
@@ -118,53 +128,75 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'darkblue',
   },
   title: {
-    fontSize: 40,
+    fontFamily: 'sans-serif',
+    fontSize: 28,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'firebrick',
     textAlign: 'center',
-    marginBottom: 40,
-  },
-  label: {
-    textAlign: 'center',
-    color: 'white',
     marginBottom: 5,
   },
-  input: {
-    borderStyle: 'solid',
-    backgroundColor: 'whitesmoke',
-    height: 25,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
-    alignItems: 'center',
+  instructions: {
+    fontFamily: 'sans-serif',
     textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
   },
-  multilineInput: {
-    borderStyle: 'solid',
-    backgroundColor: 'whitesmoke',
-    height: 100,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
+  label: {
+    fontFamily: 'sans-serif',
+    textAlign: 'center',
+    marginBottom: 5,
+    color: 'firebrick',
+  },
+  input: {
+    flex:0.7,
+    height: 35,
+    marginBottom: 5,
     alignItems: 'center',
     textAlign: 'center',
+    backgroundColor: 'whitesmoke',
+    borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
   },
   button: {
-    borderStyle: 'solid',
-    borderColor: 'darkblue',
-    backgroundColor: 'red',
-    height: 50,
-    width: 250,
-    marginBottom: 20,
+    marginTop: 5,
+    height: 40,
+    width: 200,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
-    fontSize: 20,
+    fontFamily: 'sans-serif',
+    color: 'firebrick',
+    fontSize: 25,
     fontWeight: 'bold',
+    textAlign: 'center',
+  },  
+  multilineInput: {
+    flex: 0.7,
+    borderStyle: 'solid',
+    backgroundColor: 'whitesmoke',
+    height: 110,
+    marginBottom: 10,
+    alignItems: 'center',
+    textAlign: 'center',
+    borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
+  },
+  imageContainer: {
+    flexShrink: 1,
+    height: 180,
+    //alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    alignItems:'center',
+    justifyContent:'center',
   },
 });

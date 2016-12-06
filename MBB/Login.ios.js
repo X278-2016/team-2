@@ -199,8 +199,9 @@ const styles = StyleSheet.create({
   },
   helpText: {
     fontFamily: 'AvenirNext-UltraLight',
+    fontWeight: 'bold',
     color: 'midnightblue',
-    fontSize: 15,
+    fontSize: 13,
     textDecorationLine: 'underline',
     textAlign: 'center',
   },
