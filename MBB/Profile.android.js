@@ -30,7 +30,7 @@ export default class Profile extends Component {
       };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.state.dbref.once('value', snapshot => {
       this.setState({name: snapshot.val().name});
     });

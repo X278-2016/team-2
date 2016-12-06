@@ -14,6 +14,8 @@ import Home from './Home.android.js';
 import Signup from './Signup.android.js';
 import pwReset from './PasswordReset.android.js';
 import Profile from './Profile.android.js';
+import logo from './logo-draft1-copy3-constrained.png';
+import background from './background-gradient-final.png';
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -35,56 +37,67 @@ export default class Login extends Component {
   }
   render() {
     return (
-      <View style={styles.layout}>
-        <Text style={styles.title}>
-          Login
-        </Text>
-        <Text style={styles.label}>
-          Email
-        </Text>
-        <View style = {{flexDirection: 'row'}}>
-            <View style={{flex:0.15}}></View>
-            <TextInput
-              style={styles.input}
-              selectTextOnFocus={true}
-              onChangeText={(email) => this.setState({email})}
-              value={this.state.email}
+      <Image 
+        style={styles.backgroundImage}
+        source = {background}>
+          <View style = {styles.layout}>
+          <View style = {{flexDirection: 'row'}}>
+            <Image 
+              style={styles.imageContainer}
+              resizeMode='contain'
+              source = {logo}
             />
-            <View style={{flex:0.15}}></View>
-        </View>
-        <Text style={styles.label}>
-          Password
-        </Text>
-        <View style = {{flexDirection: 'row'}}>
-            <View style={{flex:0.15}}></View>
-            <TextInput 
-              style={styles.input}
-              selectTextOnFocus={true}
-              secureTextEntry={true}
-              onChangeText={(password) => this.setState({password})}
-              value={this.state.password}
-            />
-            <View style={{flex:0.15}}></View>
-        </View>
-        <TouchableHighlight style={styles.loginButton}
-        onPress={this.onLogin.bind(this)}>
-          <Text style={styles.loginText}>
-            Enter
+          </View>
+          <Text style={styles.title}>
+            Login
           </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.helpButton}
-        onPress={this.pwReset.bind(this)}>
-          <Text style={styles.helpText}>
-            Forgot your password?
+          <Text style={styles.label}>
+            Email
           </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.helpButton}
-        onPress={this.onSignup.bind(this)}>
-          <Text style={styles.helpText}>
-            New to Hub? Sign up here!
+          <View style = {{flexDirection: 'row'}}>
+              <View style={{flex:0.15}}></View>
+              <TextInput
+                style={styles.input}
+                selectTextOnFocus={true}
+                onChangeText={(email) => this.setState({email})}
+                value={this.state.email}
+              />
+              <View style={{flex:0.15}}></View>
+          </View>
+          <Text style={styles.label}>
+            Password
           </Text>
-        </TouchableHighlight>
-      </View>
+          <View style = {{flexDirection: 'row'}}>
+              <View style={{flex:0.15}}></View>
+              <TextInput 
+                style={styles.input}
+                selectTextOnFocus={true}
+                secureTextEntry={true}
+                onChangeText={(password) => this.setState({password})}
+                value={this.state.password}
+              />
+              <View style={{flex:0.15}}></View>
+          </View>
+          <TouchableHighlight style={styles.loginButton}
+          onPress={this.onLogin.bind(this)}>
+            <Text style={styles.loginText}>
+              Enter
+            </Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.helpButton}
+          onPress={this.pwReset.bind(this)}>
+            <Text style={styles.helpText}>
+              Forgot your password?
+            </Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.helpButton}
+          onPress={this.onSignup.bind(this)}>
+            <Text style={styles.helpText}>
+              New to Hub? Sign up here!
+            </Text>
+          </TouchableHighlight>
+        </View>  
+      </Image>
     );
   }
   
@@ -135,15 +148,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightblue',
   },
   title: {
     fontFamily: 'sans-serif',
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
     color: 'firebrick',
     textAlign: 'center',
-    marginBottom: 15,
+    marginBottom: 5,
   },
   label: {
     fontFamily: 'sans-serif',
@@ -159,35 +171,50 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: 'whitesmoke',
     borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
   },
   loginButton: {
-    marginTop: 5,
-    // borderStyle: 'solid',
-    // borderColor: 'darkblue',
-    // backgroundColor: 'red',
-    height: 50,
+    height: 40,
     width: 250,
-    marginBottom: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
   loginText: {
     fontFamily: 'sans-serif',
     color: 'firebrick',
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   helpButton: {
     height: 30,
     width: 200,
     alignItems: 'center',
-    justifyContent:'center',
-    marginBottom: 20,
+    marginBottom: 5,
+    marginTop: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+
   },
   helpText: {
     fontFamily: 'sans-serif',
     color: 'midnightblue',
     fontSize: 15,
     textDecorationLine: 'underline',
+    textAlign: 'center',
+  },
+  imageContainer: {
+    flexShrink: 1,
+    height: 180,
+    //alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    alignItems:'center',
+    justifyContent:'center',
   }
 });
