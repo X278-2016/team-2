@@ -40,7 +40,7 @@ export default class Login extends Component {
       <Image 
         style={styles.backgroundImage}
         source = {background}>
-          <View style = {styles.layout}>
+        <View style = {styles.layout}>
           <View style = {{flexDirection: 'row'}}>
             <Image 
               style={styles.imageContainer}

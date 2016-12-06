@@ -11,6 +11,8 @@ import {
 
 import Home from './Home.android.js';
 import Profile from './Profile.android.js';
+import background from './background-gradient-final.png';
+
 
 import * as firebase from 'firebase';
 const firebaseconfig = {
@@ -41,58 +43,62 @@ export default class Signup extends Component {
       uri: 'https://image.freepik.com/free-icon/thumbs-up_318-31579.jpg'
     };
     return (
-      <View style={styles.layout}>
-        <Text style={styles.title}>
-          Sign up below!
-        </Text>
-        <Text style={styles.instructions}>
-          Required fields are marked with an asterisk*
-        </Text>
-        <Text style={styles.label}>
-          Name*
-        </Text>
-        <View style = {{flexDirection: 'row'}}>
-            <View style={{flex:0.15}}></View>
-            <TextInput
-              style={styles.input}
-              selectTextOnFocus={true}
-              onChangeText={(name) => this.setState({name})}
-              value={this.state.name}
-            />
-            <View style={{flex:0.15}}></View>
+      <Image 
+        style={styles.backgroundImage}
+        source = {background}>
+        <View style={styles.layout}>
+          <Text style={styles.title}>
+            Sign up below!
+          </Text>
+          <Text style={styles.instructions}>
+            Required fields are marked with an asterisk*
+          </Text>
+          <Text style={styles.label}>
+            Name*
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+              <View style={{flex:0.15}}></View>
+              <TextInput
+                style={styles.input}
+                selectTextOnFocus={true}
+                onChangeText={(name) => this.setState({name})}
+                value={this.state.name}
+              />
+              <View style={{flex:0.15}}></View>
+          </View>
+          <Text style={styles.label}>
+            Email*
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+              <View style={{flex:0.15}}></View>
+              <TextInput
+                style={styles.input}
+                selectTextOnFocus={true}
+                onChangeText={(email) => this.setState({email})}
+                value={this.state.email}
+              />
+              <View style={{flex:0.15}}></View>
+          </View>
+          <Text style={styles.label}>
+            Password*
+          </Text>
+          <View style = {{flexDirection: 'row'}}>
+              <View style={{flex:0.15}}></View>
+              <TextInput
+                style={styles.input}
+                selectTextOnFocus={true}
+                secureTextEntry={true}
+                onChangeText={(password) => this.setState({password})}
+                value={this.state.password}
+              />
+              <View style={{flex:0.15}}></View>
+          </View>
+          <TouchableHighlight style={styles.button} onPress={this.onSignup.bind(this)}>
+            <Text style={styles.buttonText}> Submit </Text>
+          </TouchableHighlight>
+            {/*<Image source={pic} style={{width: 200, height: 200}}/> */}
         </View>
-        <Text style={styles.label}>
-          Email*
-        </Text>
-        <View style = {{flexDirection: 'row'}}>
-            <View style={{flex:0.15}}></View>
-            <TextInput
-              style={styles.input}
-              selectTextOnFocus={true}
-              onChangeText={(email) => this.setState({email})}
-              value={this.state.email}
-            />
-            <View style={{flex:0.15}}></View>
-        </View>
-        <Text style={styles.label}>
-          Password*
-        </Text>
-        <View style = {{flexDirection: 'row'}}>
-            <View style={{flex:0.15}}></View>
-            <TextInput
-              style={styles.input}
-              selectTextOnFocus={true}
-              secureTextEntry={true}
-              onChangeText={(password) => this.setState({password})}
-              value={this.state.password}
-            />
-            <View style={{flex:0.15}}></View>
-        </View>
-        <TouchableHighlight style={styles.button} onPress={this.onSignup.bind(this)}>
-          <Text style={styles.buttonText}> Submit </Text>
-        </TouchableHighlight>
-          {/*<Image source={pic} style={{width: 200, height: 200}}/> */}
-      </View>
+      </Image>
     );
   }
   
@@ -137,26 +143,28 @@ export default class Signup extends Component {
 const styles = StyleSheet.create({
   layout: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'darkblue',
   },
   title: {
-    fontSize: 30,
-    textAlign: 'center',
-    margin: 15,
-    color: 'white',
+    fontFamily: 'sans-serif',
+    fontSize: 28,
     fontWeight: 'bold',
+    color: 'firebrick',
+    textAlign: 'center',
+    marginBottom: 5,
   },
   instructions: {
+    fontFamily: 'sans-serif',
     textAlign: 'center',
-    marginBottom: 15,
-    color: 'white',
+    marginBottom: 5,
+    color: 'firebrick',
   },
   label: {
+    fontFamily: 'sans-serif',
     textAlign: 'center',
-    color: 'white',
     marginBottom: 5,
+    color: 'firebrick',
   },
   input: {
     flex:0.7,
@@ -166,20 +174,110 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: 'whitesmoke',
     borderStyle: 'solid',
+    borderColor: '#87cefa',
+    borderWidth: 1,
   },
   button: {
     marginTop: 5,
-    borderStyle: 'solid',
-    borderColor: 'darkblue',
-    backgroundColor: 'red',
     height: 50,
     width: 150,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
-    fontSize: 30,
+    fontFamily: 'sans-serif',
+    color: 'firebrick',
+    fontSize: 28,
     fontWeight: 'bold',
-  }
+    textAlign: 'center',
+  },
+  imageContainer: {
+    flexShrink: 1,
+    height: 180,
+    //alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    alignItems:'center',
+    justifyContent:'center',
+  },
 });
+
+// const styles = StyleSheet.create({
+//   layout: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   title: {
+//     fontFamily: 'sans-serif',
+//     fontSize: 28,
+//     fontWeight: 'bold',
+//     color: 'firebrick',
+//     textAlign: 'center',
+//     marginBottom: 5,
+//   },
+//   label: {
+//     fontFamily: 'sans-serif',
+//     textAlign: 'center',
+//     marginBottom: 5,
+//     color: 'firebrick',
+//   },
+//   input: {
+//     flex:0.7,
+//     height: 35,
+//     marginBottom: 5,
+//     alignItems: 'center',
+//     textAlign: 'center',
+//     backgroundColor: 'whitesmoke',
+//     borderStyle: 'solid',
+//     borderColor: '#87cefa',
+//     borderWidth: 1,
+//   },
+//   loginButton: {
+//     height: 40,
+//     width: 250,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+//   loginText: {
+//     fontFamily: 'sans-serif',
+//     color: 'firebrick',
+//     fontSize: 28,
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//   },
+//   helpButton: {
+//     height: 30,
+//     width: 200,
+//     alignItems: 'center',
+//     marginBottom: 5,
+//     marginTop: 5,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+
+//   },
+//   helpText: {
+//     fontFamily: 'sans-serif',
+//     color: 'midnightblue',
+//     fontSize: 15,
+//     textDecorationLine: 'underline',
+//     textAlign: 'center',
+//   },
+//   imageContainer: {
+//     flexShrink: 1,
+//     height: 180,
+//     //alignSelf: 'center',
+//     justifyContent: 'center',
+//   },
+//   backgroundImage: {
+//     flex: 1,
+//     width: null,
+//     height: null,
+//     alignItems:'center',
+//     justifyContent:'center',
+//   }
+// });
