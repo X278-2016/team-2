@@ -60,7 +60,8 @@ export default class Home extends Component {
             value={this.state.searchString}
           />
         </View>
-        
+          
+        {/*this one works
         <ListView 
           dataSource={this.state.dataSource}
           renderRow={(rowData) => 
@@ -69,8 +70,21 @@ export default class Home extends Component {
             </Text>
           }
           enableEmptySections={true}
-        />
+        />  */}
         
+        
+        <ListView 
+          dataSource={this.state.dataSource}
+          renderRow={(rowData) =>
+          <TouchableHighlight style={styles.button}
+          onPress={this.onViewProject.bind(this)}>
+            <Text style={styles.label}>
+              Project Name: {rowData.pname} 
+            </Text>
+          </TouchableHighlight>
+          }
+          enableEmptySections={true}
+        />
           
         <TouchableHighlight style={styles.button}
         onPress={this.onLogout.bind(this)}>
@@ -87,6 +101,9 @@ export default class Home extends Component {
       component: Login
     });
   }
+  onViewProject(){
+    
+  }
 
 renderItem(project){
   return (
@@ -100,7 +117,7 @@ renderItem(project){
       var projects = [];
       snap.forEach((child) => {
         projects.push({
-          title: child.val(),
+          pinfo: child.val(),
           pname: child.key
         });
       });

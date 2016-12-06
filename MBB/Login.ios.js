@@ -124,7 +124,7 @@ export default class Login extends Component {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         this.props.navigator.push({
-          component: Profile
+          component: Home
         });
       }
     }.bind(this));
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     fontSize: 28,
     fontWeight: 'bold',
     color: 'firebrick',
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   label: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     textAlign: 'center',
     marginBottom: 5,
     color: 'firebrick',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loginText: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     color: 'firebrick',
     fontSize: 28,
     fontWeight: 'bold',
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
 
   },
   helpText: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'AvenirNext-UltraLight',
     color: 'midnightblue',
     fontSize: 15,
     textDecorationLine: 'underline',

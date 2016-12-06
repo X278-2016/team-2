@@ -6,22 +6,13 @@ const { View, TouchableHighlight, Text } = ReactNative;
 class ListItem extends Component {
   render() {
     return (
-<<<<<<< HEAD
-      <TouchableHighlight>
-        <View style={styles.li}>
-          <Text style={styles.liText}>{this.props.item.project}</Text>
-=======
       <TouchableHighlight onPress={this.props.onPress}>
-        <View style={styles.li}>
-          <Text style={styles.liText}>{this.props.item.title}</Text>
->>>>>>> 4d4b3e5ad0d6145251b03667296f1353e877ae68
-        </View>
+        <Text style={styles.liText}>{this.props.item.title}</Text>
       </TouchableHighlight>
     );
   }
 }
 
-<<<<<<< HEAD
 const styles = StyleSheet.create({
   listview: {
     flex: 1,
@@ -42,7 +33,5 @@ const styles = StyleSheet.create({
     color: '#333',
     fontSize: 16,
   },
-
-=======
->>>>>>> 4d4b3e5ad0d6145251b03667296f1353e877ae68
+  
 module.exports = ListItem;
