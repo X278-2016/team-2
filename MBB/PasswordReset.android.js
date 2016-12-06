@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {
+  Alert,
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -61,6 +63,7 @@ export default class passwordReset extends Component {
       var errorMessage = error.message;
       // Handle errors here
     });
+    Alert.alert("Email Sent", "Reset email sent to " + this.state.email);
     //Shouldn't need to log the user out
     //Unless we allow them to reset password from the profile page
     this.props.navigator.popToTop();
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
   input: {
     flex:0.7,
     height: 35,
-    marginBottom: 5,
+    marginBottom: 15,
     alignItems: 'center',
     textAlign: 'center',
     backgroundColor: 'whitesmoke',
@@ -106,8 +109,8 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 5,
-    height: 50,
-    width: 150,
+    height: 65,
+    width: 225,
     alignItems: 'center',
     justifyContent: 'center',
   },
