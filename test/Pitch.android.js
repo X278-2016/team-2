@@ -31,19 +31,24 @@ export default class Pitch extends Component {
 						Pitch!
 					</Text>
 					<View style={{flexDirection: 'row'}}>
-						<View style={{flex:0.20}}>
-							<Text style={styles.buttonText}>
-								Title:
-							</Text> 
-						</View>
-						<TextInput style={styles.input}/>
-						<TouchableHighlight onPress={this.props.onPress}>
-							<Text style={styles.buttonText}> New </Text>
-						</TouchableHighlight>
-						<TouchableHighlight onPress={this.props.onPress}>
-							<Text style={styles.buttonText}> Existing </Text>
-						</TouchableHighlight>
+            <View style={{flex:0.15}}></View>
+						<Text style={styles.titleField}>
+							Title:
+						</Text> 
+						<TextInput style={styles.input}></TextInput>
+            <View style={{flex:0.15}}></View>
 					</View>
+          <View style={{flexDirection: 'row'}}>
+            <View style={{flex:0.15}}></View>
+            <TouchableHighlight onPress={this.props.onPress}>
+              <Text style={styles.toggleText}> New </Text>
+            </TouchableHighlight>
+            <View style={{flex:0.05}}></View>
+            <TouchableHighlight onPress={this.props.onPress}>
+              <Text style={styles.toggleText}> Existing </Text>
+            </TouchableHighlight>
+            <View style={{flex:0.15}}></View>
+          </View> 
           <Text style={styles.instructions}>
             Enter short summary for a new or existing project
           </Text>
@@ -71,6 +76,11 @@ export default class Pitch extends Component {
             </TextInput>
             <View style={{flex:0.15}}></View>
           </View>
+          <TouchableHighlight onPress={this.props.onPress}>
+            <Text style={styles.buttonText}>
+              Submit
+            </Text>
+          </TouchableHighlight>
 				</View> 
 			</Image>
 		);
@@ -86,12 +96,20 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontFamily: 'sans-serif',
-    fontSize: 60,
+    fontSize: 40,
     fontWeight: 'bold',
     color: 'firebrick',
     textAlign: 'center',
-    marginBottom: 45,
+    marginTop: 25,
 	},
+  titleField: {
+    fontFamily: 'sans-serif',
+    color: 'firebrick',
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginRight: 15,
+  },
 	label: {
 		fontFamily: 'sans-serif',
     textAlign: 'center',
@@ -109,10 +127,10 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: '#87cefa',
     borderWidth: 1,
-    flex:1
+    flex:1,
   },
 	input: {
-    flex:0.5,
+    flex:0.7,
     height: 35,
     marginBottom: 5,
     alignItems: 'center',
@@ -128,6 +146,14 @@ const styles = StyleSheet.create({
     width: 150,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  toggleText: {
+    fontFamily: 'sans-serif',
+    color: 'firebrick',
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    //flex: 0.5,
   },
   buttonText: {
     fontFamily: 'sans-serif',
